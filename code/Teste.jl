@@ -1,12 +1,6 @@
 include("CalcNumCTEC.jl")
 
-t0 = time()
-function Fatorial(n::Int64)
-    if n==0 || n==1
-        return 1
-    else
-        return n * Fatorial(n-1)
-    end
-end
-tf = time()
-Fatorial(5)
+x = [0; 0.2; 0.4; 0.6; 0.8]
+y = [0.2; 1.288; 2.456; 3.464; 0.232]
+
+IntegSimpson(x, y)

@@ -460,8 +460,8 @@ function MinimosQuadrados(x::Vector, y::Vector; grau::Int64=1)
     # O grau padrão do polinômio é 1.
     # Retorno da função: (polinomio, r²)
     if length(x) != length(y)
-        println("ERRO... Vetores com dimensões diferentes!")
-        return 0
+        printstyled("\n\nERRO NA FUNÇÃO MinimosQuadrados:\nOs vetores de entrada possuem dimensões diferentes...\n\n", color=:bold)
+        return nothing
     else
         n = length(x)
 
@@ -500,7 +500,45 @@ end
 
 # OBS: COMPLETAR O ERRO COM A DIFERENCIAÇÃO NUMÉRICA
 
-function IntegSimpson(f, a, b; n=10^3)
+function IntegTrapezio(f::Function, a::Number, b::Number; 
+    n::Number=(b-a)*10^3)
+
+    if a<b
+        h = (b-a)/n
+
+        soma_fi = 0
+        for i in 1:n-1
+            soma_fi += f(a + h*i)
+        end
+
+        return (h/2)*(f(a) + 2*soma_fi + f(b))
+    else
+        printstyled("\n\nERRO NA FUNÇÃO IntegSimpson:\nO limite superior da integral deve ser\nmaior do que o limite inferior...\n\n", color=:bold)
+        return nothing
+    end
+end
+
+function IntegTrapezio(x::Vector, y::Vector)
+    n = length(x)
+
+    if n == length(y)
+        I = 0
+        for i in 1:n-1
+            I += ((x[i+1]-x[i])/2)*(y[i] + y[i+1])
+        end
+
+        #err = abs(-(b-a)^4 * (IntegSimpson(dif_f4, a, b, n=10^3))[1] / (180*n^4))
+
+        return I#, err
+    else
+        printstyled("\n\nERRO NA FUNÇÃO IntegSimpson:\nOs vetores possuem dimensões diferentes...\n\n", color=:bold)
+        return nothing
+    end
+end
+
+function IntegSimpson(f::Function, a::Number, b::Number; 
+    n::Number=(b-a)*10^3)
+
     if a<b
         h = (b-a)/(2*n)
 
@@ -518,6 +556,42 @@ function IntegSimpson(f, a, b; n=10^3)
 
         return I#, err
     else
-        println("O limite superior deve ser maior do que o limite inferior!")
+        printstyled("\n\nERRO NA FUNÇÃO IntegSimpson:\nO limite superior da integral deve ser\nmaior do que o limite inferior...\n\n", color=:bold)
+        return nothing
+    end
+end
+
+function IntegSimpson(x::Vector, y::Vector)
+    n = length(x)
+
+    if n == length(y)
+        if n%2==1
+            I = 0
+            for i in 1:2:n-2
+                I += ((x[i+2]-x[i])/6)*(y[i] + 4*y[i+1] + y[i+2])
+            end
+
+            #err = abs(-(b-a)^4 * (IntegSimpson(dif_f4, a, b, n=10^3))[1] / (180*n^4))
+
+            return I#, err
+        else
+            printstyled("\n\nERRO NA FUNÇÃO IntegSimpson:\nO número de elementos dos vetores deve ser ímpar...\n\n", color=:bold)
+            return nothing
+        end
+    else
+        printstyled("\n\nERRO NA FUNÇÃO IntegSimpson:\nOs vetores possuem dimensões diferentes...\n\n", color=:bold)
+        return nothing
+    end
+end
+
+function IntegDupSimpson(f, a, b, c, d; n=(b-a)*10^3)
+    hx = (b-a)/2n
+    hy = (d-c)/2n
+
+    res = 0
+    for ix in a:hx:b
+        for iy in c:hy:d
+
+        end
     end
 end
