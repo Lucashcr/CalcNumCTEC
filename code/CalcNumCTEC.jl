@@ -584,25 +584,108 @@ function Integral_Simpson(x::Vector, y::Vector)
     end
 end
 
-function IntegralDupla_Simpson(f::Function, a::Number, b::Number, 
-    c::Number, d::Number; nx::Number=(b-a)*10^3, ny::Number=(d-c)*10^3)
+function IntegralDupla_Simpson(f::Function, x11::Number, x2::Number, 
+    y1::Number, y2::Number; nx::Number=(b-a)*10^3, ny::Number=(d-c)*10^3)
 
-    hx = (b-a)/2nx
-    hy = (d-c)/2ny
+    hx = (x2-x1)/2nx
+    hy = (y2-y1)/2ny
 
     M = zeros(2nx+1, 2ny+1)
-    for (j,y) in enumerate(c:hy:d)
-        for (i,x) in enumerate(a:hx:b)
+    for (j,y) in enumerate(y1:hy:y2)
+        for (i,x) in enumerate(x1:hx:x2)
             M[i,j] = f(x,y)
         end
     end
 
     V = zeros(2ny+1)
     for k in 1:2ny+1
-        V[k] += IntegSimpson(Vector(a:hx:b), M[:,k]) 
+        V[k] += Integral_Simpson(Vector(x1:hx:x2), M[:,k]) 
     end
 
-    return IntegSimpson(Vector(c:hy:d), V)
+    return Integral_Simpson(Vector(y1:hy:y2), V) 
+end
+
+function IntegralTripla_Simpson(f::Function, x1::Number, x2::Number, y1::Number, y2::Number, 
+    z1::Number, z2::Number; nx::Number=(x2-x1)*100, ny::Number=(y2-y1)*100, nz::Number=(z2-z1)*100)
+
+    hx = (x2-x1)/2nx
+    hy = (y2-y1)/2ny
+    hz = (z2-z1)/2nz    
+
+    I = []
+
+    M = Matrix{Number}(undef, 2ny+1, 2nz+1)
+    for (k,z) in enumerate(z1:hz:z2)
+        for (j,y) in enumerate(y1:hy:y2)
+            for (i,x) in enumerate(x1:hx:x2)
+                M[i,j] = f(x,y,z)
+            end
+        end
+        # println(M)
+        V = zeros(2nx+1)
+        for k in 1:2nx+1
+            V[k] = Integral_Simpson(Vector(x1:hx:x2), M[:,k]) 
+        end
+        # println(V)
+        push!(I, Integral_Simpson(Vector(y1:hy:y2), V))
+    end
+    res = Integral_Simpson(Vector(z1:hz:z2), I)
+    return res
+
+    # M = Matrix{Number}(undef, 2nx+1, 2ny+1)
+    # for (j,y) in enumerate(y1:hy:y2)
+    #     for (i,x) in enumerate(x1:hx:x2)
+    #         M[i,j] = Integral_Simpson(Vector(x1:hx:x2), S[i,j,:]) 
+    #     end
+    # end
+
+    # V = zeros(2ny+1)
+    # for k in 1:2ny+1
+    #     V[k] = Integral_Simpson(Vector(x1:hx:x2), M[:,k]) 
+    # end
+
+    # return Integral_Simpson(Vector(y1:hy:y2), V)
+end
+
+function IntegralTripla_Trapezio(f::Function, x1::Number, x2::Number, y1::Number, y2::Number, 
+    z1::Number, z2::Number; nx::Int=10^3, ny::Int=10^3, nz::Int=10^3)
+
+    hx = (x2-x1)/nx
+    hy = (y2-y1)/ny
+    hz = (z2-z1)/nz    
+
+    I = []
+
+    M = Matrix{Number}(undef, ny+1, nz+1)
+    for (k,z) in enumerate(z1:hz:z2)
+        for (j,y) in enumerate(y1:hy:y2)
+            for (i,x) in enumerate(x1:hx:x2)
+                M[i,j] = f(x,y,z)
+            end
+        end
+        # println(M)
+        V = zeros(nx+1)
+        for k in 1:nx+1
+            V[k] = Integral_Trapezio(Vector(x1:hx:x2), M[:,k]) 
+        end
+        # println(V)
+        push!(I, Integral_Trapezio(Vector(y1:hy:y2), V))
+    end
+    return Integral_Trapezio(Vector(z1:hz:z2), I)
+
+    # M = Matrix{Number}(undef, 2nx+1, 2ny+1)
+    # for (j,y) in enumerate(y1:hy:y2)
+    #     for (i,x) in enumerate(x1:hx:x2)
+    #         M[i,j] = Integral_Simpson(Vector(x1:hx:x2), S[i,j,:]) 
+    #     end
+    # end
+
+    # V = zeros(2ny+1)
+    # for k in 1:2ny+1
+    #     V[k] = Integral_Simpson(Vector(x1:hx:x2), M[:,k]) 
+    # end
+
+    # return Integral_Simpson(Vector(y1:hy:y2), V)
 end
 
 "CalcNumCTEC incluída com sucesso!"
