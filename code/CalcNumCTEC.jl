@@ -583,3 +583,24 @@ function IntegSimpson(x::Vector, y::Vector)
         return nothing
     end
 end
+
+function IntegDupSimpson(f::Function, a::Number, b::Number, 
+    c::Number, d::Number; nx::Number=(b-a)*10^3, ny::Number=(d-c)*10^3)
+
+    hx = (b-a)/2nx
+    hy = (d-c)/2ny
+
+    M = zeros(2nx+1, 2ny+1)
+    for (j,y) in enumerate(c:hy:d)
+        for (i,x) in enumerate(a:hx:b)
+            M[i,j] = f(x,y)
+        end
+    end
+
+    V = zeros(2ny+1)
+    for k in 1:2ny+1
+        V[k] += IntegSimpson(Vector(a:hx:b), M[:,k]) 
+    end
+
+    return IntegSimpson(Vector(c:hy:d), V)
+end

@@ -1,6 +1,5 @@
 include("CalcNumCTEC.jl")
 
-x = [0; 0.2; 0.4; 0.6; 0.8]
-y = [0.2; 1.288; 2.456; 3.464; 0.232]
+T(x,y) = sin(x) + cos(y) + x*y
 
-IntegSimpson(x, y)
+IntegDupSimpson(T, 0, 8, 0, 6)
