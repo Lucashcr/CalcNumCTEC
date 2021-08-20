@@ -583,15 +583,3 @@ function IntegSimpson(x::Vector, y::Vector)
         return nothing
     end
 end
-
-function IntegDupSimpson(f, a, b, c, d; n=(b-a)*10^3)
-    hx = (b-a)/2n
-    hy = (d-c)/2n
-
-    res = 0
-    for ix in a:hx:b
-        for iy in c:hy:d
-
-        end
-    end
-end
