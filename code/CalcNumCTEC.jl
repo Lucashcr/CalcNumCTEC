@@ -7,7 +7,7 @@ using Printf
 
 # Cálculo de zeros de funções ------------------------------------------------------------------------------
 
-function ZeroBissecao(f::Function, a::Number, b::Number, 
+function Zeros_Bissecao(f::Function, a::Number, b::Number, 
     tol::Number=10^-12, klim::Number=10^6)
     # Calcula zeros de funções dentro do intervalo [a,b] especificado através do método da bisseção.
     # Métrica de erro utilizada: eₐ = |f(xₖ)|
@@ -43,7 +43,7 @@ function ZeroBissecao(f::Function, a::Number, b::Number,
     end
 end
 
-function ZeroCordas(f::Function, a::Number, b::Number, 
+function Zeros_Cordas(f::Function, a::Number, b::Number, 
     tol::Float64=10^-12, klim::Int64=10^6)
     # Calcula zeros de funções dentro do intervalo [a,b] especificado através do método da cordas.
     # Métrica de erro utilizada: eₐ = |f(xₖ)|
@@ -79,7 +79,7 @@ function ZeroCordas(f::Function, a::Number, b::Number,
     end
 end
 
-function ZeroNR(f::Function, x::Number, 
+function Zeros_NR(f::Function, x::Number, 
     tol::Float64=10^-12, klim::Int64=10^6)
     # Calcula zeros de funções a partir do ponto x especificado através do método da de Newton-Raphson.
     # Métrica de erro utilizada: eₐ = |f(xₖ)|
@@ -108,7 +108,7 @@ end
 
 # Resolução de sistemas de equações lineares --------------------------------------------------------------
 
-function EliminGauss(A::Matrix, b::Vector, tol::Float64=10^-12)
+function SEL_EliminGauss(A::Matrix, b::Vector, tol::Float64=10^-12)
     # Rseolve o sistema linear A*x=b através do Método da Eliminação de Gauss, escalonado a matriz.
     # Tolerância padrão: 10^(-12)
 
@@ -178,7 +178,7 @@ function EliminGauss(A::Matrix, b::Vector, tol::Float64=10^-12)
     end
 end
 
-function CritConverg(A::Matrix; modo::Char='S')
+function SEL_CritConverg(A::Matrix; modo::Char='S')
     # Calcula os critérios de convergência para o sistema definido pela matriz A.
     # MODO 'L' ou 'l' -> Critério das linhas
     # MODO 'C' ou 'c' -> Critério das colunas
@@ -224,7 +224,7 @@ function CritConverg(A::Matrix; modo::Char='S')
     end
 end
 
-function GaussJacobi(A::Matrix, b::Vector; x_in::Vector=zeros(length(b)), 
+function SEL_GaussJacobi(A::Matrix, b::Vector; x_in::Vector=zeros(length(b)), 
     tol::Float64=10^-12, klim=10^3)
     # Rseolve o sistema linear A*x=b através de iterações pelo Método da Gauss-Jacobi.
     # Tolerância padrão: 10^(-12)
@@ -289,7 +289,7 @@ function GaussJacobi(A::Matrix, b::Vector; x_in::Vector=zeros(length(b)),
     end
 end
 
-function GaussSeidel(A::Matrix, b::Vector; x_in::Vector=zeros(length(b)), 
+function SEL_GaussSeidel(A::Matrix, b::Vector; x_in::Vector=zeros(length(b)), 
     tol::Float64=10^-12, klim::Int64=10^3)
     # Rseolve o sistema linear A*x=b através de iterações pelo Método da Gauss-Seidel.
     # Tolerância padrão: 10^(-12)
@@ -356,7 +356,7 @@ end
 
 # Resolução de sistemas de equações não lineares ---------------------------------------------------------
 
-function NR_Secante(F::Function, x_in::Vector;
+function SENL_NRSecante(F::Function, x_in::Vector;
     tol::Float64=10^-12, klim::Int64=10^3)
     # Rseolve o sistema não linear F(x)=0 através de iterações pelo Método de Newton-Raphson Secante.
     # Ou seja, a Jacobiana é calculada de maneira aproximada em função da tolerância.
@@ -404,7 +404,7 @@ end
 
 # Interpolação e ajuste ------------------------------------------------------------------------------
 
-function InterpPolinomial(x::Vector, y::Vector)
+function Interpolacao_Polinomial(x::Vector, y::Vector)
     # Calcula e retorna o polinômio interpolador para os dados de entrada via polinômios de Lagrange.
     # O grau do polinômio é determinado pelas dimensões dos vetores x e y.
 
@@ -432,7 +432,7 @@ function InterpPolinomial(x::Vector, y::Vector)
     end
 end
 
-function InterpPolinomial(f::Function, x::Vector)
+function Interpolacao_Polinomial(f::Function, x::Vector)
     # Calcula e retorna o polinômio interpolador para os dados de entrada via polinômios de Lagrange.
     # O grau do polinômio é determinado pela dimensão do vetor x.
 
@@ -455,7 +455,7 @@ function InterpPolinomial(f::Function, x::Vector)
     return f_interpoladora
 end
 
-function MinimosQuadrados(x::Vector, y::Vector; grau::Int64=1)
+function Ajuste_MinimosQuadrados(x::Vector, y::Vector; grau::Int64=1)
     # Calcula e retorna o polinômio ajustado para os dados de entrada via Método dos Mínimos Quadrados.
     # O grau padrão do polinômio é 1.
     # Retorno da função: (polinomio, r²)
@@ -500,7 +500,7 @@ end
 
 # OBS: COMPLETAR O ERRO COM A DIFERENCIAÇÃO NUMÉRICA
 
-function IntegTrapezio(f::Function, a::Number, b::Number; 
+function Integral_Trapezio(f::Function, a::Number, b::Number; 
     n::Number=(b-a)*10^3)
 
     if a<b
@@ -518,7 +518,7 @@ function IntegTrapezio(f::Function, a::Number, b::Number;
     end
 end
 
-function IntegTrapezio(x::Vector, y::Vector)
+function Integral_Trapezio(x::Vector, y::Vector)
     n = length(x)
 
     if n == length(y)
@@ -536,7 +536,7 @@ function IntegTrapezio(x::Vector, y::Vector)
     end
 end
 
-function IntegSimpson(f::Function, a::Number, b::Number; 
+function Integral_Simpson(f::Function, a::Number, b::Number; 
     n::Number=(b-a)*10^3)
 
     if a<b
@@ -561,7 +561,7 @@ function IntegSimpson(f::Function, a::Number, b::Number;
     end
 end
 
-function IntegSimpson(x::Vector, y::Vector)
+function Integral_Simpson(x::Vector, y::Vector)
     n = length(x)
 
     if n == length(y)
@@ -584,7 +584,7 @@ function IntegSimpson(x::Vector, y::Vector)
     end
 end
 
-function IntegDupSimpson(f::Function, a::Number, b::Number, 
+function IntegralDupla_Simpson(f::Function, a::Number, b::Number, 
     c::Number, d::Number; nx::Number=(b-a)*10^3, ny::Number=(d-c)*10^3)
 
     hx = (b-a)/2nx
@@ -604,3 +604,5 @@ function IntegDupSimpson(f::Function, a::Number, b::Number,
 
     return IntegSimpson(Vector(c:hy:d), V)
 end
+
+"CalcNumCTEC incluída com sucesso!"
