@@ -7,7 +7,7 @@ using Printf
 
 # Cálculo de zeros de funções ------------------------------------------------------------------------------
 
-function Zeros_Bissecao(f::Function, a::Number, b::Number, 
+function Zeros_Bissecao(f::Function, a::Number, b::Number; 
     tol::Number=10^-12, klim::Number=10^6)
     # Calcula zeros de funções dentro do intervalo [a,b] especificado através do método da bisseção.
     # Métrica de erro utilizada: eₐ = |f(xₖ)|
@@ -43,7 +43,7 @@ function Zeros_Bissecao(f::Function, a::Number, b::Number,
     end
 end
 
-function Zeros_Cordas(f::Function, a::Number, b::Number, 
+function Zeros_Cordas(f::Function, a::Number, b::Number; 
     tol::Float64=10^-12, klim::Int64=10^6)
     # Calcula zeros de funções dentro do intervalo [a,b] especificado através do método da cordas.
     # Métrica de erro utilizada: eₐ = |f(xₖ)|
@@ -79,7 +79,7 @@ function Zeros_Cordas(f::Function, a::Number, b::Number,
     end
 end
 
-function Zeros_NR(f::Function, x::Number, 
+function Zeros_NR(f::Function, x::Number; 
     tol::Float64=10^-12, klim::Int64=10^6)
     # Calcula zeros de funções a partir do ponto x especificado através do método da de Newton-Raphson.
     # Métrica de erro utilizada: eₐ = |f(xₖ)|
@@ -108,7 +108,7 @@ end
 
 # Resolução de sistemas de equações lineares --------------------------------------------------------------
 
-function SEL_EliminGauss(A::Matrix, b::Vector, tol::Float64=10^-12)
+function SEL_EliminGauss(A::Matrix, b::Vector; tol::Float64=10^-12)
     # Rseolve o sistema linear A*x=b através do Método da Eliminação de Gauss, escalonado a matriz.
     # Tolerância padrão: 10^(-12)
 
