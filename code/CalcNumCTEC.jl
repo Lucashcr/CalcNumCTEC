@@ -4,8 +4,42 @@
 
 using LinearAlgebra
 using Printf
-
 # Cálculo de zeros de funções ------------------------------------------------------------------------------
+
+function Derivada_Secante(f::Function, x::Number; tol::Number=10^-9, klim::Int=100)
+    k=1
+    h=1
+    dif1 = (f(x+h) - f(x)) / h
+    h /= 2
+    dif2 = (f(x+h) - f(x)) / h
+    err = dif2 - dif1
+
+    while abs(err) > tol
+        k += 1
+        h /= 2
+        dif1 = dif2
+        dif2 = (f(x+h) - f(x)) / h
+
+        if k == klim
+            printstyled("\n\nERRO NA FUNÇÃO Derivada_Secante:\nO método não convergiu para $klim iterações\ne tolerância de $tol...\n\n", color=:bold)
+            return nothing
+        end
+
+        err = dif2 - dif1
+    end
+    return dif2
+end
+
+function Derivada_Secante(f::Function, x::Number, n::Int; tol::Number=10^-9)
+    if n<0
+        printstyled("\n\nERRO NA FUNÇÃO Calculo_Derivada:\nValor de n inválido...\n\n", color=:bold)
+        return nothing
+    elseif n>1
+        return (Derivada_Secante(f, x+tol, n-1, tol=tol) - Derivada_Secante(f, x-tol, n-1, tol=tol)) / 2tol
+    elseif n==1
+        return Derivada_Secante(f, x)
+    end
+end
 
 function Zeros_Bissecao(f::Function, a::Number, b::Number; 
     tol::Number=10^-12, klim::Number=10^6)
@@ -95,8 +129,7 @@ function Zeros_NR(f::Function, x::Number;
             k += 1
         end
 
-        dif_f(x) = (f(x+tol) - f(x)) / tol
-        if dif_f(x) < tol
+        if abs(Calculo_Derivada(f, x, 1, tol=tol)) < tol
             printstyled("\n\nERRO NA FUNÇÃO ZeroNR:\nO ponto x=$x possui derivada nula...\n\n", color=:bold)
             return nothing
         end
@@ -357,7 +390,7 @@ end
 # Resolução de sistemas de equações não lineares ---------------------------------------------------------
 
 function SENL_NRSecante(F::Function, x_in::Vector;
-    tol::Float64=10^-12, klim::Int64=10^3)
+    tol::Float64=10^-6, klim::Int64=10^3)
     # Rseolve o sistema não linear F(x)=0 através de iterações pelo Método de Newton-Raphson Secante.
     # Ou seja, a Jacobiana é calculada de maneira aproximada em função da tolerância.
     # Tolerância padrão: 10^(-12)
@@ -686,6 +719,13 @@ function IntegralTripla_Trapezio(f::Function, x1::Number, x2::Number, y1::Number
     # end
 
     # return Integral_Simpson(Vector(y1:hy:y2), V)
+end
+
+function Derivada_Taylor(f::Function, a::Number)
+    intervalo = Vector(range(a-1, a+1, length=4))
+    p = Interpolacao_Polinomial(intervalo, f.(intervalo))
+    derivada = (p(a+0.0001) - f(a)) / 0.0001
+    return derivada 
 end
 
 "CalcNumCTEC incluída com sucesso!"
