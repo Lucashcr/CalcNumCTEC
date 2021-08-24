@@ -6,40 +6,44 @@ using LinearAlgebra
 using Printf
 # Cálculo de zeros de funções ------------------------------------------------------------------------------
 
-function Derivada_Secante(f::Function, x::Number; tol::Number=10^-9, klim::Int=100)
-    k=1
-    h=1
-    dif1 = (f(x+h) - f(x)) / h
-    h /= 2
-    dif2 = (f(x+h) - f(x)) / h
-    err = dif2 - dif1
-
-    while abs(err) > tol
-        k += 1
-        h /= 2
-        dif1 = dif2
-        dif2 = (f(x+h) - f(x)) / h
-
-        if k == klim
-            printstyled("\n\nERRO NA FUNÇÃO Derivada_Secante:\nO método não convergiu para $klim iterações\ne tolerância de $tol...\n\n", color=:bold)
-            return nothing
-        end
-
-        err = dif2 - dif1
-    end
-    return dif2
+function Derivada_Secante(f::Function, x::Number; h::Number=10^-6) 
+    return (f(x+h) - f(x)) / h
 end
 
-function Derivada_Secante(f::Function, x::Number, n::Int; tol::Number=10^-9)
+function Derivada_Secante(f::Function, x::Number, n::Int; h::Number=10^-6)
     if n<0
         printstyled("\n\nERRO NA FUNÇÃO Calculo_Derivada:\nValor de n inválido...\n\n", color=:bold)
         return nothing
     elseif n>1
-        return (Derivada_Secante(f, x+tol, n-1, tol=tol) - Derivada_Secante(f, x-tol, n-1, tol=tol)) / 2tol
+        return (Derivada_Secante(f, x+h, n-1, h=h) - Derivada_Secante(f, x-h, n-1, h=h)) / 2h
     elseif n==1
         return Derivada_Secante(f, x)
     end
 end
+
+function Derivada_Richardson(f::Function, x₀::Number; h::Float64=0.1)
+    col1 = [(f(x₀+(h/2^i))-f(x₀-(h/2^i)))/(2h/2^i) for i in 0:10]
+    n = length(col1)
+    for j in 1:n
+        temp_col = zeros(n-j)
+        for i in 1:n-j
+            temp_col[i] = (2^j * col1[i+1] - col1[i])/(2^j-1)
+        end
+        col1[1:n-j] = temp_col
+    end
+    return col1[1]
+end
+
+# function Derivada_Richardson(f::Function, x::Number, n::Int; h::Float64=10^-4)
+#     if n<0
+#         printstyled("\n\nERRO NA FUNÇÃO Derivada_Richardson:\nValor de n inválido...\n\n", color=:bold)
+#         return nothing
+#     elseif n>1
+#         return (Derivada_Richardson(f, x+h, n-1) - Derivada_Richardson(f, x-h, n-1)) / 2h
+#     elseif n==1
+#         return Derivada_Richardson(f, x, h=h)
+#     end
+# end
 
 function Zeros_Bissecao(f::Function, a::Number, b::Number; 
     tol::Number=10^-12, klim::Number=10^6)
