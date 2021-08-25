@@ -30,9 +30,9 @@ function Derivada_MDFCentrada5pt(f::Function, x::Number, n::Int; h::Number=10^-4
         printstyled("\n\nERRO NA FUNÇÃO Calculo_Derivada:\nValor de n inválido...\n\n", color=:bold)
         return nothing
     elseif n>1
-        return (Derivada_AltaAcurácia(f, x-2h, n-1, h=h) - 8*Derivada_AltaAcurácia(f, x-h, n-1, h=h) + 8*Derivada_AltaAcurácia(f, x+h, n-1, h=h) - Derivada_AltaAcurácia(f, x+2h, n-1, h=h)) / 12h
+        return (Derivada_MDFCentrada5pt(f, x-2h, n-1, h=h) - 8*Derivada_MDFCentrada5pt(f, x-h, n-1, h=h) + 8*Derivada_MDFCentrada5pt(f, x+h, n-1, h=h) - Derivada_MDFCentrada5pt(f, x+2h, n-1, h=h)) / 12h
     elseif n==1
-        return Derivada_AltaAcurácia(f, x, h=h)
+        return Derivada_MDFCentrada5pt(f, x, h=h)
     end
 end
 
