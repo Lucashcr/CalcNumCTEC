@@ -6,5 +6,5 @@ Esta biblioteca está sendo elaborada como resultado da monitoria de Cálculo Nu
 
 A biblioteca é munida de funções para cálculo de zeros de funções, sistemas de equações lineares e não lineares, interpolação e ajuste e integração e diferenciação numéricas.
 
-* [Documentação](doc/Documentação.html)
+* [Documentação](https://htmlpreview.github.io/?https://github.com/Lucashcr/CalcNumCTEC/blob/main/doc/Documenta%C3%A7%C3%A3o.html)
 
