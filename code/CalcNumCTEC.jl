@@ -4,46 +4,39 @@
 
 using LinearAlgebra
 using Printf
-# Cálculo de zeros de funções ------------------------------------------------------------------------------
+using Base
 
-function Derivada_Secante(f::Function, x::Number; h::Number=10^-6) 
-    return (f(x+h) - f(x)) / h
+function Derivada_MDFCentrada3pt(f::Function, x::Number; h::Number=10^-4) 
+    return (f(x+h) - f(x-h)) / 2h
 end
 
-function Derivada_Secante(f::Function, x::Number, n::Int; h::Number=10^-6)
+function Derivada_MDFCentrada3pt(f::Function, x::Number, n::Int; h::Number=10^-4)
     if n<0
         printstyled("\n\nERRO NA FUNÇÃO Calculo_Derivada:\nValor de n inválido...\n\n", color=:bold)
         return nothing
     elseif n>1
-        return (Derivada_Secante(f, x+h, n-1, h=h) - Derivada_Secante(f, x-h, n-1, h=h)) / 2h
+        return (Derivada_MDFCentrada3pt(f, x+h, n-1, h=h) - Derivada_MDFCentrada3pt(f, x-h, n-1, h=h)) / 2h
     elseif n==1
-        return Derivada_Secante(f, x)
+        return Derivada_MDFCentrada3pt(f, x)
     end
 end
 
-function Derivada_Richardson(f::Function, x₀::Number; h::Float64=0.1)
-    col1 = [(f(x₀+(h/2^i))-f(x₀-(h/2^i)))/(2h/2^i) for i in 0:10]
-    n = length(col1)
-    for j in 1:n
-        temp_col = zeros(n-j)
-        for i in 1:n-j
-            temp_col[i] = (2^j * col1[i+1] - col1[i])/(2^j-1)
-        end
-        col1[1:n-j] = temp_col
-    end
-    return col1[1]
+function Derivada_MDFCentrada5pt(f::Function, x::Number; h::Number=10^-4)
+    return (f(x-2h)-8*f(x-h)+8*f(x+h)-f(x+2h))/(12h)
 end
 
-# function Derivada_Richardson(f::Function, x::Number, n::Int; h::Float64=10^-4)
-#     if n<0
-#         printstyled("\n\nERRO NA FUNÇÃO Derivada_Richardson:\nValor de n inválido...\n\n", color=:bold)
-#         return nothing
-#     elseif n>1
-#         return (Derivada_Richardson(f, x+h, n-1) - Derivada_Richardson(f, x-h, n-1)) / 2h
-#     elseif n==1
-#         return Derivada_Richardson(f, x, h=h)
-#     end
-# end
+function Derivada_MDFCentrada5pt(f::Function, x::Number, n::Int; h::Number=10^-4)
+    if n<0
+        printstyled("\n\nERRO NA FUNÇÃO Calculo_Derivada:\nValor de n inválido...\n\n", color=:bold)
+        return nothing
+    elseif n>1
+        return (Derivada_AltaAcurácia(f, x-2h, n-1, h=h) - 8*Derivada_AltaAcurácia(f, x-h, n-1, h=h) + 8*Derivada_AltaAcurácia(f, x+h, n-1, h=h) - Derivada_AltaAcurácia(f, x+2h, n-1, h=h)) / 12h
+    elseif n==1
+        return Derivada_AltaAcurácia(f, x, h=h)
+    end
+end
+
+# Cálculo de zeros de funções ------------------------------------------------------------------------------
 
 function Zeros_Bissecao(f::Function, a::Number, b::Number; 
     tol::Number=10^-12, klim::Number=10^6)
@@ -457,14 +450,14 @@ function Interpolacao_Polinomial(x::Vector, y::Vector)
                         aux *= (x_in - x[j])/(x[i] - x[j])
                     end
                 end
-                res += f(x[i]) * aux
+                res += y[i] * aux
             end 
             return res
-        end
+        end 
 
         return f_interpoladora
     else
-        printstyled("\n\nERRO NA FUNÇÃO InterpPolinomial:\nOs vetores de entrada possuem dimensões diferentes...\n\n", color=:bold)
+        printstyled("\n\nERRO NA FUNÇÃO Interpolacao_Polinomial:\nOs vetores de entrada possuem dimensões diferentes...\n\n", color=:bold)
         return nothing
     end
 end
@@ -490,6 +483,20 @@ function Interpolacao_Polinomial(f::Function, x::Vector)
     end
     
     return f_interpoladora
+end
+
+function Interpolacao_Bilinear(x::Vector, y::Vector, z::Vector)
+    n = 4
+
+    if n == length(x) == length(y) == length(z)
+        M = [ones(n) x y x.*y]
+        b = M \ z
+        g(x,y) = dot(b,[1 x y x*y])
+        return g
+    else
+        printstyled("\n\nERRO NA FUNÇÃO Interpolacao_Bilinear:\nOs vetores de entrada precisam ter dimensões de 4 elementos...\n\n", color=:bold)
+        return nothing
+    end
 end
 
 function Ajuste_MinimosQuadrados(x::Vector, y::Vector; grau::Int64=1)
@@ -621,7 +628,7 @@ function Integral_Simpson(x::Vector, y::Vector)
     end
 end
 
-function IntegralDupla_Simpson(f::Function, x11::Number, x2::Number, 
+function IntegralDupla_Simpson(f::Function, x1::Number, x2::Number, 
     y1::Number, y2::Number; nx::Number=(b-a)*10^3, ny::Number=(d-c)*10^3)
 
     hx = (x2-x1)/2nx
@@ -725,11 +732,35 @@ function IntegralTripla_Trapezio(f::Function, x1::Number, x2::Number, y1::Number
     # return Integral_Simpson(Vector(y1:hy:y2), V)
 end
 
-function Derivada_Taylor(f::Function, a::Number)
-    intervalo = Vector(range(a-1, a+1, length=4))
-    p = Interpolacao_Polinomial(intervalo, f.(intervalo))
-    derivada = (p(a+0.0001) - f(a)) / 0.0001
-    return derivada 
+# Geometria -----------------------------------------------------------------------------------
+
+struct Vertex2d
+    x::Number
+    y::Number
+
+    function Base.print(v::Vertex2d)
+        print("(", v.x, ", ", v.y, ")")
+    end
+    function Base.println(v::Vertex2d)
+        println("(", v.x, ", ", v.y, ")")
+    end
+end
+
+struct Vertex3d
+    x::Number
+    y::Number
+    z::Number
+
+    function Vertex3d(v::Vertex2d,z::Number)
+        Vertex3d(v.x, v.y, z)
+    end
+
+    function Base.print(v::Vertex3d)
+        print("(", v.x, ", ", v.y, ", ", v.z, ")")
+    end
+    function Base.println(v::Vertex3d)
+        println("(", v.x, ", ", v.y, ", ", v.z, ")")
+    end
 end
 
 "CalcNumCTEC incluída com sucesso!"
