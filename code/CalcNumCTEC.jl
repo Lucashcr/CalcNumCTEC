@@ -40,11 +40,6 @@ end
 
 function Zeros_Bissecao(f::Function, a::Number, b::Number; 
     tol::Number=10^-12, klim::Number=10^6)
-    # Calcula zeros de funções dentro do intervalo [a,b] especificado através do método da bisseção.
-    # Métrica de erro utilizada: eₐ = |f(xₖ)|
-    # Tolerância padrão: 10^(-12)
-    # Limite de iterações padrão: 10^6
-
     if f(a) * f(b) < 0
         k = 0
         x = (a + b) / 2
@@ -58,10 +53,10 @@ function Zeros_Bissecao(f::Function, a::Number, b::Number;
             end
         
             x = (a + b) / 2
-            if f(x) * f(a) < 0 #Se os valores tiverem sinais opostos, o resultado da multiplicação é negativo
-                b = x #Assim, o novo valor da função se torna o "b" da próxima iteração
+            if f(x) * f(a) < 0 
+                b = x
             else
-                a = x #Caso contrário, ele se torna o "a" da próxima iteração
+                a = x 
             end
         end
 
@@ -76,11 +71,6 @@ end
 
 function Zeros_Cordas(f::Function, a::Number, b::Number; 
     tol::Float64=10^-12, klim::Int64=10^6)
-    # Calcula zeros de funções dentro do intervalo [a,b] especificado através do método da cordas.
-    # Métrica de erro utilizada: eₐ = |f(xₖ)|
-    # Tolerância padrão: 10^(-12)
-    # Limite de iterações padrão: 10^6
-
     if f(a) * f(b) < 0
         k = 0
         x = (a * f(b) - b * f(a)) / (f(b) - f(a))
@@ -94,10 +84,10 @@ function Zeros_Cordas(f::Function, a::Number, b::Number;
             end
         
             x = (a + b) / 2
-            if f(x) * f(a) < 0 #Se os valores tiverem sinais opostos, o resultado da multiplicação é negativo
-                b = x #Assim, o novo valor da função se torna o "b" da próxima iteração
+            if f(x) * f(a) < 0
+                b = x 
             else
-                a = x #Caso contrário, ele se torna o "a" da próxima iteração
+                a = x 
             end
         end
 
@@ -112,11 +102,6 @@ end
 
 function Zeros_NR(f::Function, x::Number; 
     tol::Float64=10^-12, klim::Int64=10^6)
-    # Calcula zeros de funções a partir do ponto x especificado através do método da de Newton-Raphson.
-    # Métrica de erro utilizada: eₐ = |f(xₖ)|
-    # Tolerância padrão: 10^(-12)
-    # Limite de iterações padrão: 10^6
-
     k = 0
     while abs(f(x)) > tol
         if k == klim
@@ -126,11 +111,11 @@ function Zeros_NR(f::Function, x::Number;
             k += 1
         end
 
-        if abs(Calculo_Derivada(f, x, 1, tol=tol)) < tol
+        if abs(Derivada_MDFCentrada5pt(f, x)) < tol
             printstyled("\n\nERRO NA FUNÇÃO ZeroNR:\nO ponto x=$x possui derivada nula...\n\n", color=:bold)
             return nothing
         end
-        x = x - (f(x) / dif_f(x))
+        x = x - (f(x) / Derivada_MDFCentrada5pt(f, x))
     end
 
     return x
@@ -139,9 +124,6 @@ end
 # Resolução de sistemas de equações lineares --------------------------------------------------------------
 
 function SEL_EliminGauss(A::Matrix, b::Vector; tol::Float64=10^-12)
-    # Rseolve o sistema linear A*x=b através do Método da Eliminação de Gauss, escalonado a matriz.
-    # Tolerância padrão: 10^(-12)
-
     (m,n) = size(A)
     
     if m==n && m == length(b)
@@ -160,19 +142,22 @@ function SEL_EliminGauss(A::Matrix, b::Vector; tol::Float64=10^-12)
                 end
                 return aux
             end
+
+            AG = copy(A)
+            bG = copy(b)
             
             for j in 1:n
                 i = j
                 while A[j,j] == 0
                     i+=1
 
-                    aux_A = A[j,:]
-                    A[j,:] = A[i,:]
-                    A[i,:] = aux_A
+                    aux_A = AG[j,:]
+                    AG[j,:] = AG[i,:]
+                    AG[i,:] = aux_A
 
                     aux_b = b[j]
-                    b[j] = b[i]
-                    b[i] = aux_b
+                    bG[j] = bG[i]
+                    bG[i] = aux_b
                     if (i,j) == (m,n)
                         printstyled("\n\nERRO na função EliminGauss:\nA matriz é singular...\n\n", color=:bold)
                         return nothing
@@ -183,7 +168,7 @@ function SEL_EliminGauss(A::Matrix, b::Vector; tol::Float64=10^-12)
             i = 1
             j = 1
             k = 0
-            while test(A) > tol
+            while test(AG) > tol
                 k += 1
                 if i == n
                     j += 1
@@ -191,13 +176,13 @@ function SEL_EliminGauss(A::Matrix, b::Vector; tol::Float64=10^-12)
                 end
                 i += 1
         
-                b[i] -= b[j] * (A[i,j] / A[j,j])
-                A[i,:] -= A[j,:] * (A[i,j] / A[j,j])
+                bG[i] -= bG[j] * (AG[i,j] / AG[j,j])
+                AG[i,:] -= AG[j,:] * (AG[i,j] / AG[j,j])
             end
         
             x = zeros(n)
             for k in n:-1:1
-                x[k] = (b[k] - dot(A[k,:], x)) / A[k,k]
+                x[k] = (bG[k] - dot(AG[k,:], x)) / AG[k,k]
             end
         
             return x
@@ -208,37 +193,29 @@ function SEL_EliminGauss(A::Matrix, b::Vector; tol::Float64=10^-12)
     end
 end
 
-function SEL_CritConverg(A::Matrix; modo::Char='S')
-    # Calcula os critérios de convergência para o sistema definido pela matriz A.
-    # MODO 'L' ou 'l' -> Critério das linhas
-    # MODO 'C' ou 'c' -> Critério das colunas
-    # MODO 'S' ou 's' -> Critério de Sassenfield
-    
+function SEL_CritConverg(A::Matrix, modo::Char)    
     (m,n) = size(A)
 
     if m == n
         if uppercase(modo) == 'L'
-            println("Critério das linhas:")
+            beta=zeros(n)
             for i in range(1, stop = n)
-                beta_i = 0
                 for j in range(1, stop = n)
-                    beta_i += abs(A[i,j]) 
+                    beta[i] += abs(A[i,j]) 
                 end
-                beta_i /= abs(A[i,i])
-                println("β_", i," = ", beta_i)
+                beta[i] /= abs(A[i,i])
             end
+            return max(beta...)
         elseif uppercase(modo) == 'C'
-            println("Critério das colunas:")
+            beta=zeros(n)
             for j in range(1, stop = n)
-                beta_j = 0
                 for i in range(1, stop = n)
-                    beta_j += abs(A[i,j]) 
+                    beta[j] += abs(A[i,j]) 
                 end
-                beta_j /= abs(A[j,j])
-                println("β_", j," = ", beta_j)
+                beta[j] /= abs(A[j,j])
             end
+            return max(beta...)
         elseif uppercase(modo) == 'S'
-            println("Critério de Sassenfield:")
             beta = ones(n)
             for i in range(1, stop = n)
                 for j in range(1, stop = n)
@@ -246,8 +223,8 @@ function SEL_CritConverg(A::Matrix; modo::Char='S')
                 end
                 beta[i] -= 1
                 beta[i] /= abs(A[i,i])
-                println("β_", i," = ", beta[i])
             end
+            return max(beta...)
         end
     else
         printstyled("\n\nERRO NA FUNÇÃO CritConverg:\nA matriz dada não é quadrada...\n\n", color=:bold)

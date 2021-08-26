@@ -57,6 +57,19 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
 .highlight .ss { color: var(--jp-mirror-editor-string-color) } /* Literal.String.Symbol */
 .highlight .il { color: var(--jp-mirror-editor-number-color) } /* Literal.Number.Integer.Long */
   </style>
+<style type="text/css">
+    /*This file contains any manual css for this page that needs to override the global styles.
+This is only required when different pages style the same element differently. This is just
+a hack to deal with our current css styles and no new styling should be added in this file.*/
+
+#ipython-main-app {
+    position: relative;
+}
+#jupyter-main-app {
+    position: relative;
+}
+
+  </style>
 
 
 
@@ -13971,17 +13984,23 @@ a.anchor-link {
 
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<center><img src="turma_logo.png" width="100" hspace="20"><img src="julia_logo.png" width="120" hspace="20"><img src="brasao-ufal.jpg" width="70" hspace="20"></center><h1 style="font-family: Times New Roman; font-style: italic; text-align: center">Documentação:</h1>
-<h1 style="font-family: Times New Roman; text-align: center"><b>CalcNumCTEC</b></h1><hr/>
+<center><img src="img_init.png" width="500"></center><h1 align="center">Documentação:</h1>
+<h1 align="center">CalcNumCTEC</h1><hr/>
 
-<h3 style="font-family: Times New Roman; font-style: normal; text-align: center">Lucas Henrique Correia da Rocha<br/><font color="grey">lucash.rocha@hotmail.com</font></h3><hr/>
+<h3 align="center">Lucas Henrique Correia da Rocha</h3>
+<h3 align="center">lucash.rocha@hotmail.com</h3><hr/>
 
-<p style="text-align: justify; text-indent: 1cm">Olá! Seja bem-vindo à documentação da biblioteca CalcNumCTEC. Esta biblioteca foi implementada inicialmente como compilação dos métodos estudados na disciplina de Cálculo Numérico a partir da atividade de monitoria no Centro de Tecnologia (CTEC) da Universidade Federal de Alagoas (UFAL). Meu nome é Lucas, fui monitor da disciplina no semestre de 2020.2 e, como resultado dos trabalhos realizados durante o exercício da função de monitor, auxiliando os alunos com a implementação dos métodos em linguagem Julia, resolvi juntar todas elas numa biblioteca.</p><p style="text-align: justify; text-indent: 1cm">Entretanto, durante a realização do trabalho, foram surgindo novas ideias, que foram sendo desenvolvidas e agregadas ao trabalho inicial, de forma a expandir a aplicabilidade da biblioteca, implementando novas funções e até mesmo tipos de dados específicos, a fim de facilitar o trabalho acadêmico.</p><p style="text-align: justify; text-indent: 1cm">Portanto, espero que esta biblioteca seja útil para você. E não deixe de dar feedback, em especial de melhorias para que possamos evoluir suas funcionalidades. Faça bom proveito! 😀</p><h2 id="Introdu%C3%A7%C3%A3o">Introdu&#231;&#227;o<a class="anchor-link" href="#Introdu%C3%A7%C3%A3o">&#182;</a></h2><h4 id="1.-INCLUS%C3%83O-DA-BIBLIOTECA">1. INCLUS&#195;O DA BIBLIOTECA<a class="anchor-link" href="#1.-INCLUS%C3%83O-DA-BIBLIOTECA">&#182;</a></h4><p style="text-align: justify; text-indent: 1cm">Com o objetivo de simplificar o desenvolvimento e a utilização da biblioteca, o código está escrito num script com nome da biblioteca e a primeira coisa a ser feita, antes mesmo de usá-la, é colocar uma cópia do arquivo em algum local de fácil acesso. Por conveniência, em especial se o programa que você está escrevendo será compartilhado com outros usuários, é recomendado que ele seja guardado na mesma pasta do arquivo que o está chamando ou numa subpasta dela.</p><p style="text-align: justify; text-indent: 1cm">Depois disso, é preciso incluir o <i>script</i> no código em que estamos escrevendo! Em Julia, isso é feito através da função <i>include</i>, passando o diretório do arquivo. Veja o exemplo abaixo:</p>
+<p>Olá! Seja bem-vindo à documentação da biblioteca CalcNumCTEC. Esta biblioteca foi implementada inicialmente como compilação dos métodos estudados na disciplina de Cálculo Numérico a partir da atividade de monitoria no Centro de Tecnologia (CTEC) da Universidade Federal de Alagoas (UFAL). Meu nome é Lucas, fui monitor da disciplina no semestre de 2020.2 e, como resultado dos trabalhos realizados durante o exercício da função de monitor, auxiliando os alunos com a implementação dos métodos em linguagem Julia, resolvi juntar todas elas numa biblioteca.</p>
+<p>Entretanto, durante a realização do trabalho, foram surgindo novas ideias, que foram sendo desenvolvidas e agregadas ao trabalho inicial, de forma a expandir a aplicabilidade da biblioteca, implementando novas funções e até mesmo tipos de dados específicos, a fim de facilitar o trabalho acadêmico.</p>
+<p>Portanto, espero que esta biblioteca seja útil para você. E não deixe de dar feedback, em especial de melhorias para que possamos evoluir suas funcionalidades. Faça bom proveito! 😀</p>
+<h2 id="Introdu%C3%A7%C3%A3o">Introdu&#231;&#227;o<a class="anchor-link" href="#Introdu%C3%A7%C3%A3o">&#182;</a></h2><h4 id="1.-INCLUS%C3%83O-DA-BIBLIOTECA">1. INCLUS&#195;O DA BIBLIOTECA<a class="anchor-link" href="#1.-INCLUS%C3%83O-DA-BIBLIOTECA">&#182;</a></h4><p>Com o objetivo de simplificar o desenvolvimento e a utilização da biblioteca, o código está escrito num script com nome da biblioteca e a primeira coisa a ser feita, antes mesmo de usá-la, é colocar uma cópia do arquivo em algum local de fácil acesso. Por conveniência, em especial se o programa que você está escrevendo será compartilhado com outros usuários, é recomendado que ele seja guardado na mesma pasta do arquivo que o está chamando ou numa subpasta dela.</p>
+<p>Depois disso, é preciso incluir o <em>script</em> no código em que estamos escrevendo! Em Julia, isso é feito através da função <em>include</em>, passando o diretório do arquivo. Veja o exemplo abaixo:</p>
+
 </div>
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[8]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[179]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-julia"><pre><span></span><span class="n">include</span><span class="p">(</span><span class="s">&quot;C:</span><span class="se">\\</span><span class="s">Users</span><span class="se">\\</span><span class="s">lucas</span><span class="se">\\</span><span class="s">Documents</span><span class="se">\\</span><span class="s">GitHub</span><span class="se">\\</span><span class="s">CalcNumCTEC</span><span class="se">\\</span><span class="s">CalcNumCTEC</span><span class="se">\\</span><span class="s">code</span><span class="se">\\</span><span class="s">CalcNumCTEC.jl&quot;</span><span class="p">)</span>
@@ -14000,7 +14019,7 @@ a.anchor-link {
 <div class="jp-OutputArea-child">
 
     
-    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[8]:</div>
+    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[179]:</div>
 
 
 
@@ -14018,7 +14037,10 @@ a.anchor-link {
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<p style="text-align: justify; text-indent: 1cm">Um jeito de garantir que a biblioteca foi incluída com êxito, conforme demonstrado no exemplo anterior, é executar o programa de modo que a chamada seja a última linha. Desta maneira, será exibida uma saída no terminal com a mensagem <b>"CalcNumCTEC incluída com sucesso!"</b>. Pode-se ainda testar executando alguma das funções implementadas.</p><h4 id="2.-NOMENCLATURA-DAS-FUN%C3%87%C3%95ES">2. NOMENCLATURA DAS FUN&#199;&#213;ES<a class="anchor-link" href="#2.-NOMENCLATURA-DAS-FUN%C3%87%C3%95ES">&#182;</a></h4><p style="text-align: justify; text-indent: 1cm">A funções implementadas estão estrategicamente nomeadas de maneira lógica, facilitando a utilização com nomes triviais e de fácil memorização. O padrão utilizado para nomenclatura das funções é da forma:</p><h5 style="font-family: Times New Roman; text-align: center"><b><i>ASSUNTO_MÉTODO</i></b></h5><p style="text-align: justify; text-indent: 1cm">O assunto está associado ao objeto principal da função, ou seja, ao resultado do que a função de fato implementa. São eles:</p><table>
+<p>Um jeito de garantir que a biblioteca foi incluída com êxito, conforme demonstrado no exemplo anterior, é executar o programa de modo que a chamada seja a última linha. Desta maneira, será exibida uma saída no terminal com a mensagem <strong>"CalcNumCTEC incluída com sucesso!"</strong>. Pode-se ainda testar executando alguma das funções implementadas.</p>
+<h4 id="2.-NOMENCLATURA-DAS-FUN%C3%87%C3%95ES">2. NOMENCLATURA DAS FUN&#199;&#213;ES<a class="anchor-link" href="#2.-NOMENCLATURA-DAS-FUN%C3%87%C3%95ES">&#182;</a></h4><p>A funções implementadas estão estrategicamente nomeadas de maneira lógica, facilitando a utilização com nomes triviais e de fácil memorização. O padrão utilizado para nomenclatura das funções é da forma:</p>
+<h5><center><b><i>ASSUNTO_MÉTODO</i></b></center></h5><p>O assunto está associado ao objeto principal da função, ou seja, ao resultado do que a função de fato implementa. São eles:</p>
+<table>
 <thead><tr>
 <th style="text-align:center">Assunto</th>
 <th style="text-align:center"><em>ASSUNTO</em>           </th>
@@ -14031,7 +14053,7 @@ a.anchor-link {
 </tr>
 <tr>
 <td style="text-align:center">Sistemas de equações lineares</td>
-<td style="text-align:center">SEL </td>
+<td style="text-align:center"><a href="#SEL">SEL</a></td>
 </tr>
 <tr>
 <td style="text-align:center">Sistemas de equações não lineares</td>
@@ -14059,15 +14081,19 @@ a.anchor-link {
 </tr>
 </tbody>
 </table>
-<p style="text-align: justify; text-indent: 1cm">O método, por sua vez, como o próprio nome sugere, indica o método numérico utilizado para a determinação do resultado requerido. Veremos então, para cada função o método implementado e como essa nomenclatura é efetivamente utilizada.</p><h4 id="Zeros"> 3. ZEROS DE FUNÇÕES </h4><p style="text-align: justify; text-indent: 1cm">A primeira classe de assuntos que veremos é a que determina raízes de funções quaisquer. Aqui, temos os três métodos clássicos para a determinação de zeros de funções:</p><ul>
-<li>Método da Bisseção $\rightarrow$ <em>MÉTODO</em> = Bissecao</li>
+<p>O método, por sua vez, como o próprio nome sugere, indica o método numérico utilizado para a determinação do resultado requerido. Veremos então, para cada função o método implementado e como essa nomenclatura é efetivamente utilizada.</p>
+<h4 id="Zeros"> 3. ZEROS DE FUNÇÕES </h4><p>A primeira classe de assuntos que veremos é a que determina raízes de funções quaisquer. Aqui, temos os três métodos clássicos para a determinação de zeros de funções:</p>
+<ul>
+<li>Método da Bisseção → <em>MÉTODO</em> = Bissecao</li>
 </ul>
-<p style="text-align: justify; text-indent: 1cm">Classificado como um método intervalar, o Método da Bisseção consiste em estreitar um intervalo inicial a partir do ponto médio do mesmo até que o erro, calculado como $|f(x_k)|$, onde $f$ é a função de análise, seja menor do que a tolerância.</p><p style="text-align: justify; text-indent: 1cm">Os parâmetros obrigatórios para sua utilização são: a função a ser analisada e os extremos $a$ e $b$ do intervalo. Para garantir a convergência do método, este só permitirá a execução da função se os valores de $f(a)$ e $f(b)$ possuírem valores simétricos, de maneira que, pelo Teorema do Valor Intermediário (TVI), verificamos a existência da raiz no intervalo dado. Vejamos um exemplo de utilização:</p>
+<p>Classificado como um método intervalar, o Método da Bisseção consiste em estreitar um intervalo inicial a partir do ponto médio do mesmo até que o erro, calculado como $|f(x_k)|$, onde $f$ é a função de análise, seja menor do que a tolerância.</p>
+<p>Os parâmetros obrigatórios para sua utilização são: a função a ser analisada e os extremos $a$ e $b$ do intervalo. Para garantir a convergência do método, este só permitirá a execução da função se os valores de $f(a)$ e $f(b)$ possuírem valores simétricos, de maneira que, pelo Teorema do Valor Intermediário (TVI), verificamos a existência da raiz no intervalo dado. Vejamos um exemplo de utilização:</p>
+
 </div>
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[9]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[180]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-julia"><pre><span></span><span class="n">f</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">=</span> <span class="n">x</span><span class="o">^</span><span class="mi">3</span> <span class="o">-</span> <span class="n">cos</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
@@ -14106,12 +14132,13 @@ f(1) = 0.45969769413186023
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<p style="text-align: justify; text-indent: 1cm">Daí, podemos concluir que $\exist x \in [0,1] \mid f(x)=0$. Perceba ainda que, não é possível isolar $x$ na equação $x^3-cos(x)=0$ de modo a obter este valor analiticamente, fazendo-nos ter de recorrer a métodos numéricos. Logo, podemos usar a função $Zeros_Bissecao()$ para calcular este valor de x.</p>
+<p>Daí, podemos concluir que $∃x \in [0,1] \mid f(x)=0$. Perceba ainda que, não é possível isolar $x$ na equação $x^3-cos(x)=0$ de modo a obter este valor analiticamente, fazendo-nos ter de recorrer a métodos numéricos. Logo, podemos usar a função <strong>Zeros_Bissecao()</strong> para calcular este valor de x.</p>
+
 </div>
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[10]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[181]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-julia"><pre><span></span><span class="n">xᵣ</span> <span class="o">=</span> <span class="n">Zeros_Bissecao</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
@@ -14154,7 +14181,7 @@ f(1) = 0.45969769413186023
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[11]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[182]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-julia"><pre><span></span><span class="n">xᵣ</span> <span class="o">=</span> <span class="n">Zeros_Bissecao</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">tol</span><span class="o">=</span><span class="mf">0.01</span><span class="p">,</span> <span class="n">klim</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
@@ -14198,14 +14225,14 @@ f(1) = 0.45969769413186023
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[12]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[183]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-julia"><pre><span></span><span class="n">xᵣ</span> <span class="o">=</span> <span class="n">Zeros_Cordas</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
 <span class="n">xᵣ₂</span> <span class="o">=</span> <span class="n">Zeros_Cordas</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">tol</span><span class="o">=</span><span class="mf">0.01</span><span class="p">,</span> <span class="n">klim</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
 
-<span class="n">println</span><span class="p">(</span><span class="s">&quot;Raiz de f(x) = </span><span class="si">$xᵣ</span><span class="s">&quot;</span><span class="p">)</span>
-<span class="n">println</span><span class="p">(</span><span class="s">&quot;Raiz de f(x) (Baixa tolerância) = </span><span class="si">$xᵣ₂</span><span class="s">&quot;</span><span class="p">)</span>
+<span class="n">println</span><span class="p">(</span><span class="s">&quot;Raiz de f(x) (Método das Cordas - tolerância padrão) = </span><span class="si">$xᵣ</span><span class="s">&quot;</span><span class="p">)</span>
+<span class="n">println</span><span class="p">(</span><span class="s">&quot;Raiz de f(x) (Método das Cordas - baixa tolerância). = </span><span class="si">$xᵣ₂</span><span class="s">&quot;</span><span class="p">)</span>
 </pre></div>
 
      </div>
@@ -14225,8 +14252,8 @@ f(1) = 0.45969769413186023
 
 
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain">
-<pre>Raiz de f(x) = 0.865474033101691
-Raiz de f(x) (Baixa tolerância) = 0.8671875
+<pre>Raiz de f(x) (Método das Cordas - tolerância padrão) = 0.865474033101691
+Raiz de f(x) (Método das Cordas - baixa tolerância). = 0.8671875
 </pre>
 </div>
 </div>
@@ -14241,17 +14268,23 @@ Raiz de f(x) (Baixa tolerância) = 0.8671875
 <ul>
 <li>Método de Newton-Raphson $\rightarrow$ <em>MÉTODO</em> = NR</li>
 </ul>
-<p style="text-align: justify; text-indent: 1cm">Saindo agora do escopo dos métodos intervalares, o Método de Newton-Raphson difere dos anteriores pelo fato de que o chute inicial, ao invés de iniciar com um intervalo, é dado por um valor para x e o próximo valor é calculado a partir da interseção da reta tangente com o eixo x.</p><p style="text-align: justify; text-indent: 1cm">Para a implementação do método, a fim de evitar a determinação da derivada analiticamente, tomou-se a decisão de estimar este valor a partir de uma reta secante pelos pontos $(x_k, f(x_k))$ e $(x_k + tol, f(x_k + tol))$, onde <i>tol</i> é a tolerância da função.</p><p style="text-align: justify; text-indent: 1cm">De forma semelhante aos métodos anteriores, além de passar na chamada a função a ser analisada e a </p>
+<p>Saindo agora do escopo dos métodos intervalares, o Método de Newton-Raphson difere dos anteriores pelo fato de que o chute inicial, ao invés de iniciar com um intervalo, é dado por um valor para x e o próximo valor é calculado a partir da interseção da reta tangente com o eixo x.</p>
+<p>Para a implementação do método, a fim de evitar a determinação da derivada analiticamente, tomou-se a decisão de estimar este valor a partir de uma reta secante pelos pontos $(x_k, f(x_k))$ e $(x_k + tol, f(x_k + tol))$, onde <em>tol</em> é a tolerância da função.</p>
+<p>De forma semelhante aos métodos anteriores, além de passar na chamada a função a ser analisada e o chute inicial, desta vez caracterizado por um único valor de x, é possível também determinar a tolerância e a quantidade limite de iterações do método.</p>
+<p>A função utilizada para o cálculo da derivada, porém, será descrita mais adiante.</p>
+
 </div>
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[13]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[184]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-julia"><pre><span></span><span class="c"># g(x) = x^4 - sin(x)</span>
-<span class="n">g</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">=</span> <span class="n">x</span><span class="o">^</span><span class="n">x</span>
-<span class="n">Derivada_Secante</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+<div class=" highlight hl-julia"><pre><span></span><span class="n">xᵣ</span> <span class="o">=</span> <span class="n">Zeros_NR</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">xᵣ₂</span> <span class="o">=</span> <span class="n">Zeros_NR</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">tol</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">klim</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+
+<span class="n">println</span><span class="p">(</span><span class="s">&quot;Raiz de f(x) (Método NR - tolerância padrão) = </span><span class="si">$xᵣ</span><span class="s">&quot;</span><span class="p">)</span>
+<span class="n">println</span><span class="p">(</span><span class="s">&quot;Raiz de f(x) (Método NR - baixa tolerância). = </span><span class="si">$xᵣ₂</span><span class="s">&quot;</span><span class="p">)</span>
 </pre></div>
 
      </div>
@@ -14267,19 +14300,173 @@ Raiz de f(x) (Baixa tolerância) = 0.8671875
 <div class="jp-OutputArea-child">
 
     
-    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[13]:</div>
+    <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 
 
-
-
-<div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain">
-<pre>13.467671422517917</pre>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain">
+<pre>Raiz de f(x) (Método NR - tolerância padrão) = 0.8654740331016162
+Raiz de f(x) (Método NR - baixa tolerância). = 0.8803328995715387
+</pre>
+</div>
 </div>
 
 </div>
 
 </div>
 
+</div>
+<div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<h4 id="SEL"> 4. SISTEMAS DE EQUAÇÕES LINEARES </h4><p>O próximo conjunto de funções está relacionado à resolução de sistemas lineares abrangendo métodos diretos, iterativos e até mesmo a verificação dos critérios de convergência.</p>
+<ul>
+<li>Eliminação de Gauss $\rightarrow$ <em>MÉTODO</em> = EliminGauss</li>
+</ul>
+<p>O primeiro método para solução de sistemas de equações lineares trata-se de um método direto, denominado Método da Eliminação de Gauss, que consiste em realizar operações lineares nas linhas da matriz e do vetor que definem o sistema a fim de escalonar a matriz, ou seja, fazer com que ela tome a forma de uma matriz triangular superior, com os elementos abaixo da diagonal principal nulos.</p>
+$$
+\left[ \begin{matrix}
+a_{11} &amp; a_{12} &amp; a_{13} &amp; ... &amp; a_{1n} \\
+0 &amp; a_{22} &amp; a_{23} &amp; ... &amp; a_{2n} \\
+0 &amp; 0 &amp; a_{33} &amp; ... &amp; a_{3n} \\
+ ...  &amp;  ...  &amp;  ...  &amp; ... &amp;  ... \\
+0 &amp; 0 &amp; 0 &amp; ... &amp; a_{nn}
+\end{matrix} \right]
+$$<p>Com a matrix devidamente escalonada, o resultado pode ser calculado da última linha para a primeira utilizando-se os valores obtidos no passo anterior.</p>
+<p>A função pode então ser chamada conforme o código abaixo. Veja ainda que podemos ainda validar o exemplo com o valor obtido através do operador nativo de Julia para o cálculo de sistemas de equações lineares com $\approx$ (\approx):</p>
+
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[185]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+     <div class="CodeMirror cm-s-jupyter">
+<div class=" highlight hl-julia"><pre><span></span><span class="n">A</span> <span class="o">=</span> <span class="n">randn</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span><span class="mi">5</span><span class="p">)</span>
+<span class="n">b</span> <span class="o">=</span> <span class="n">randn</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+
+<span class="n">x</span> <span class="o">=</span> <span class="n">SEL_EliminGauss</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span>
+
+<span class="n">println</span><span class="p">(</span><span class="s">&quot;Vetor x:&quot;</span><span class="p">)</span>
+
+<span class="k">using</span> <span class="n">DelimitedFiles</span>
+<span class="n">writedlm</span><span class="p">(</span><span class="nb">stdout</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span>
+
+<span class="n">println</span><span class="p">(</span><span class="s">&quot;</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span> <span class="n">x</span> <span class="o">≈</span> <span class="n">A</span><span class="o">\</span><span class="n">b</span><span class="p">)</span>
+</pre></div>
+
+     </div>
+</div>
+</div>
+</div>
+
+<div class="jp-Cell-outputWrapper">
+
+
+<div class="jp-OutputArea jp-Cell-outputArea">
+
+<div class="jp-OutputArea-child">
+
+    
+    <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+
+
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain">
+<pre>Vetor x:
+-2.4905651887225564
+-3.5544394580486802
+1.8556359283811825
+6.5327444779258155
+-6.2951376522373135
+
+true
+</pre>
+</div>
+</div>
+
+</div>
+
+</div>
+
+</div>
+<div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<ul>
+<li>CRITÉRIOS DE CONVERGÊNCIA $\rightarrow$ <em>MÉTODO</em> = CritConverg</li>
+</ul>
+<p>Usados para determinar o grau de convergência do sistema para os métodos iterativos a partir das características da matriz de coeficientes dos sistemas. Na verdade, o que estes critéios medem realmente é o grau de dominância dos termos  Os métodos implementados são três:</p>
+<p>a) Critério das linhas ($\beta_i$)</p>
+<p>Calcula a soma dos elementos da linha dividido pelo elemento da diagonal principal na linha correspondente, compondo então um vetor com os valores $\beta_i$ para cada linha $i$ e retornando o maior deles.</p>
+$$\beta_i = \frac{\sum_{i=1}^{n}{a_{ij}}}{a_{ii}}$$<p>b) Critério das colunas ($\beta_i$)</p>
+<p>Semelhantemente ao anterior, calcula a soma dos elementos da coluna dividido pelo elemento da diagonal principal na linha correspondente, armazenando então um vetor com os valores $\beta_j$ para cada coluna $j$ e retornando o maior deles.</p>
+$$\beta_j = \frac{\sum_{j=1}^{n}{a_{ij}}}{a_{jj}}$$<p>c) Critério de Sassenfield</p>
+<p>Este, porém, é parecido com o primeiro, a primeira linha é calculada de maneira semelhante ao critério das linhas. Entretanto, na segunda linha em diante, os valores de $\beta$ obtidos nas linhas anteriores são utilizados como multiplicadores para os elementos cujo índice da coluna é correspondente, ou seja:</p>
+$$
+\begin{matrix}
+\beta_1 = \frac{\sum_{i=1}^{n}{a_{ij}}}{a_{11}} \\
+\beta_2 = \beta_1 a_{21} + \frac{\sum_{i=2}^{n}{a_{ij}}}{a_{11}} \\
+\beta_3 = \beta_1 a_{31} + \beta_2 a_{32} + \frac{\sum_{i=3}^{n}{a_{ij}}}{a_{33}} \\
+ ... 
+\end{matrix}
+$$<p>Para quaisquer dos três métodos, quanto maior for o valor retornado pela função, mais difícil será a convergência dos métodos iterativos, ou seja, o método deverá convergir com erros maiores e para um número maior de iterações. Todavia, é suficiente para garantir a convergência que ao menos um destes valores estejam entre $0$ e $1$.</p>
+<p>Assim, foi implementada apenas uma função para responder aos três critérios, de maneira que a escolha é feita através do parâmetro <em>modo</em>:</p>
+<ul>
+<li>'l' ou 'L' para o critério das linhas </li>
+<li>'c' ou 'C' para o critério das colunas</li>
+<li>'s' ou 'S' para o critério de Sassenfield</li>
+</ul>
+
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[186]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+     <div class="CodeMirror cm-s-jupyter">
+<div class=" highlight hl-julia"><pre><span></span><span class="n">println</span><span class="p">(</span><span class="s">&quot;</span><span class="se">\n</span><span class="s">Convergência de A pelo critério das linhas....: &quot;</span><span class="p">,</span> <span class="n">SEL_CritConverg</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="sc">&#39;l&#39;</span><span class="p">))</span>
+<span class="n">println</span><span class="p">(</span><span class="s">&quot;Convergência de A pelo critério das colunas...: &quot;</span><span class="p">,</span> <span class="n">SEL_CritConverg</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="sc">&#39;c&#39;</span><span class="p">))</span>
+<span class="n">println</span><span class="p">(</span><span class="s">&quot;Convergência de A pelo critério de Sassenfield: &quot;</span><span class="p">,</span> <span class="n">SEL_CritConverg</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="sc">&#39;s&#39;</span><span class="p">))</span>
+</pre></div>
+
+     </div>
+</div>
+</div>
+</div>
+
+<div class="jp-Cell-outputWrapper">
+
+
+<div class="jp-OutputArea jp-Cell-outputArea">
+
+<div class="jp-OutputArea-child">
+
+    
+    <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+
+
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain">
+<pre>
+Convergência de A pelo critério das linhas....: 45.08258035184163
+Convergência de A pelo critério das colunas...: 38.176996829332275
+Convergência de A pelo critério de Sassenfield: 2493.162558021146
+</pre>
+</div>
+</div>
+
+</div>
+
+</div>
+
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[&nbsp;]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+     <div class="CodeMirror cm-s-jupyter">
+<div class=" highlight hl-julia"><pre><span></span>
+</pre></div>
+
+     </div>
+</div>
+</div>
 </div>
 
 </div>
