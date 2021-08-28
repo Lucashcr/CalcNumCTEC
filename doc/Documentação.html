@@ -13984,8 +13984,7 @@ a.anchor-link {
 
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<center><img src="img_init.png" width="500"></center><h1 align="center">Documentação:</h1>
-<h1 align="center">CalcNumCTEC</h1><hr/>
+<center><img src="img_init.png" width="500"></center><hr/>
 
 <h3 align="center">Lucas Henrique Correia da Rocha</h3>
 <h3 align="center">lucash.rocha@hotmail.com</h3><hr/>
@@ -14000,7 +13999,7 @@ a.anchor-link {
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[179]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[61]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-julia"><pre><span></span><span class="n">include</span><span class="p">(</span><span class="s">&quot;C:</span><span class="se">\\</span><span class="s">Users</span><span class="se">\\</span><span class="s">lucas</span><span class="se">\\</span><span class="s">Documents</span><span class="se">\\</span><span class="s">GitHub</span><span class="se">\\</span><span class="s">CalcNumCTEC</span><span class="se">\\</span><span class="s">CalcNumCTEC</span><span class="se">\\</span><span class="s">code</span><span class="se">\\</span><span class="s">CalcNumCTEC.jl&quot;</span><span class="p">)</span>
@@ -14019,7 +14018,7 @@ a.anchor-link {
 <div class="jp-OutputArea-child">
 
     
-    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[179]:</div>
+    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[61]:</div>
 
 
 
@@ -14079,6 +14078,10 @@ a.anchor-link {
 <td style="text-align:center">Integral tripla</td>
 <td style="text-align:center">IntegralTripla </td>
 </tr>
+<tr>
+<td style="text-align:center">Derivadas</td>
+<td style="text-align:center">MDFCentradas</td>
+</tr>
 </tbody>
 </table>
 <p>O método, por sua vez, como o próprio nome sugere, indica o método numérico utilizado para a determinação do resultado requerido. Veremos então, para cada função o método implementado e como essa nomenclatura é efetivamente utilizada.</p>
@@ -14093,7 +14096,7 @@ a.anchor-link {
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[180]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[62]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-julia"><pre><span></span><span class="n">f</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">=</span> <span class="n">x</span><span class="o">^</span><span class="mi">3</span> <span class="o">-</span> <span class="n">cos</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
@@ -14132,13 +14135,13 @@ f(1) = 0.45969769413186023
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<p>Daí, podemos concluir que $∃x \in [0,1] \mid f(x)=0$. Perceba ainda que, não é possível isolar $x$ na equação $x^3-cos(x)=0$ de modo a obter este valor analiticamente, fazendo-nos ter de recorrer a métodos numéricos. Logo, podemos usar a função <strong>Zeros_Bissecao()</strong> para calcular este valor de x.</p>
+<p>Daí, podemos concluir que $∃x \in [0,1] \mid f(x)=0$. Perceba ainda que, não é possível isolar $x$ na equação $x^3-cos(x)=0$ de modo a obter este valor analiticamente, fazendo-nos ter de recorrer a métodos numéricos. Logo, podemos usar a função <code>Zeros_Bissecao()</code> para calcular este valor de x.</p>
 
 </div>
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[181]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[63]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-julia"><pre><span></span><span class="n">xᵣ</span> <span class="o">=</span> <span class="n">Zeros_Bissecao</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
@@ -14174,14 +14177,14 @@ f(1) = 0.45969769413186023
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<p style="text-align: justify; text-indent: 1cm">Além destes parâmetros obrigatórios, temos parâmetros adicionais referentes à convergência da função, são eles:</p><blockquote><p><em>tol</em>: Define a tolerância permitida para o erro da aproximação (valor padrão: $10^{-12}$) &lt;/br&gt; <em>klim</em>: Define a quantidade máxima de iterações para o caso do método não convergir (valor padrão: $10^6$)</p>
+<p style="text-align: justify; text-indent: 1cm">Além destes parâmetros obrigatórios, temos parâmetros adicionais referentes à convergência da função, são eles:</p><blockquote><p><code>tol</code>: Define a tolerância permitida para o erro da aproximação (valor padrão: $10^{-12}$) &lt;/br&gt; <code>klim</code>: Define a quantidade máxima de iterações para o caso do método não convergir (valor padrão: $10^6$)</p>
 </blockquote>
 
 </div>
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[182]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[64]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-julia"><pre><span></span><span class="n">xᵣ</span> <span class="o">=</span> <span class="n">Zeros_Bissecao</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">tol</span><span class="o">=</span><span class="mf">0.01</span><span class="p">,</span> <span class="n">klim</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
@@ -14225,7 +14228,7 @@ f(1) = 0.45969769413186023
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[183]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[65]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-julia"><pre><span></span><span class="n">xᵣ</span> <span class="o">=</span> <span class="n">Zeros_Cordas</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
@@ -14277,7 +14280,7 @@ Raiz de f(x) (Método das Cordas - baixa tolerância). = 0.8671875
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[184]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[66]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-julia"><pre><span></span><span class="n">xᵣ</span> <span class="o">=</span> <span class="n">Zeros_NR</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
@@ -14331,13 +14334,13 @@ a_{11} &amp; a_{12} &amp; a_{13} &amp; ... &amp; a_{1n} \\
 0 &amp; 0 &amp; 0 &amp; ... &amp; a_{nn}
 \end{matrix} \right]
 $$<p>Com a matrix devidamente escalonada, o resultado pode ser calculado da última linha para a primeira utilizando-se os valores obtidos no passo anterior.</p>
-<p>A função pode então ser chamada conforme o código abaixo. Veja ainda que podemos ainda validar o exemplo com o valor obtido através do operador nativo de Julia para o cálculo de sistemas de equações lineares com $\approx$ (\approx):</p>
+<p>A função pode então ser chamada conforme o código abaixo. Veja ainda que podemos ainda validar o exemplo com o valor obtido através do operador nativo de Julia para o cálculo de sistemas de equações lineares com $\approx$ <code>(\approx)</code>:</p>
 
 </div>
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[185]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[67]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-julia"><pre><span></span><span class="n">A</span> <span class="o">=</span> <span class="n">randn</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span><span class="mi">5</span><span class="p">)</span>
@@ -14345,7 +14348,7 @@ $$<p>Com a matrix devidamente escalonada, o resultado pode ser calculado da últ
 
 <span class="n">x</span> <span class="o">=</span> <span class="n">SEL_EliminGauss</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span>
 
-<span class="n">println</span><span class="p">(</span><span class="s">&quot;Vetor x:&quot;</span><span class="p">)</span>
+<span class="n">println</span><span class="p">(</span><span class="s">&quot;Vetor solução:&quot;</span><span class="p">)</span>
 
 <span class="k">using</span> <span class="n">DelimitedFiles</span>
 <span class="n">writedlm</span><span class="p">(</span><span class="nb">stdout</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span>
@@ -14370,12 +14373,12 @@ $$<p>Com a matrix devidamente escalonada, o resultado pode ser calculado da últ
 
 
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain">
-<pre>Vetor x:
--2.4905651887225564
--3.5544394580486802
-1.8556359283811825
-6.5327444779258155
--6.2951376522373135
+<pre>Vetor solução:
+0.21268382261445784
+-1.4770318082746958
+0.10043993657177547
+2.585401811995677
+-0.18573291019424595
 
 true
 </pre>
@@ -14409,16 +14412,16 @@ $$
 $$<p>Para quaisquer dos três métodos, quanto maior for o valor retornado pela função, mais difícil será a convergência dos métodos iterativos, ou seja, o método deverá convergir com erros maiores e para um número maior de iterações. Todavia, é suficiente para garantir a convergência que ao menos um destes valores estejam entre $0$ e $1$.</p>
 <p>Assim, foi implementada apenas uma função para responder aos três critérios, de maneira que a escolha é feita através do parâmetro <em>modo</em>:</p>
 <ul>
-<li>'l' ou 'L' para o critério das linhas </li>
-<li>'c' ou 'C' para o critério das colunas</li>
-<li>'s' ou 'S' para o critério de Sassenfield</li>
+<li><code>'l'</code> ou <code>'L'</code> para o critério das linhas </li>
+<li><code>'c'</code> ou <code>'C'</code> para o critério das colunas&lt;/code&gt;</li>
+<li><code>'s'</code> ou <code>'S'</code> para o critério de Sassenfield</li>
 </ul>
 
 </div>
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[186]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[72]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-julia"><pre><span></span><span class="n">println</span><span class="p">(</span><span class="s">&quot;</span><span class="se">\n</span><span class="s">Convergência de A pelo critério das linhas....: &quot;</span><span class="p">,</span> <span class="n">SEL_CritConverg</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="sc">&#39;l&#39;</span><span class="p">))</span>
@@ -14444,9 +14447,9 @@ $$<p>Para quaisquer dos três métodos, quanto maior for o valor retornado pela 
 
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain">
 <pre>
-Convergência de A pelo critério das linhas....: 45.08258035184163
-Convergência de A pelo critério das colunas...: 38.176996829332275
-Convergência de A pelo critério de Sassenfield: 2493.162558021146
+Convergência de A pelo critério das linhas....: 9.496148069437828
+Convergência de A pelo critério das colunas...: 11.04846703832951
+Convergência de A pelo critério de Sassenfield: 1300.1595201331788
 </pre>
 </div>
 </div>
@@ -14455,20 +14458,11 @@ Convergência de A pelo critério de Sassenfield: 2493.162558021146
 
 </div>
 
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
-<div class="jp-Cell-inputWrapper">
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[&nbsp;]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-     <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-julia"><pre><span></span>
-</pre></div>
+</div>
+<div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
 
-     </div>
 </div>
-</div>
-</div>
-
 </div>
 </body>
 

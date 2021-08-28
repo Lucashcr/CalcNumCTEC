@@ -6,34 +6,27 @@ using LinearAlgebra
 using Printf
 using Base
 
-function Derivada_MDFCentrada3pt(f::Function, x::Number; h::Number=10^-4) 
-    return (f(x+h) - f(x-h)) / 2h
-end
-
-function Derivada_MDFCentrada3pt(f::Function, x::Number, n::Int; h::Number=10^-4)
-    if n<0
-        printstyled("\n\nERRO NA FUNÇÃO Calculo_Derivada:\nValor de n inválido...\n\n", color=:bold)
-        return nothing
-    elseif n>1
-        return (Derivada_MDFCentrada3pt(f, x+h, n-1, h=h) - Derivada_MDFCentrada3pt(f, x-h, n-1, h=h)) / 2h
-    elseif n==1
-        return Derivada_MDFCentrada3pt(f, x)
+function Derivada_MDFCentrada(f::Function, x₀::Number, i::Int; h::Number=10^-4, n::Int=9)
+    x = x₀-((n-1)/2)*h:h:x₀+((n-1)/2)*h
+    
+    A = zeros(n,n)
+    for i in range(1,stop=n)
+        for j in range(1,stop=n)
+            A[i,j] = x[i]^(n-j)
+        end
     end
-end
 
-function Derivada_MDFCentrada5pt(f::Function, x::Number; h::Number=10^-4)
-    return (f(x-2h)-8*f(x-h)+8*f(x+h)-f(x+2h))/(12h)
-end
+    coefs = A \ f.(x)
 
-function Derivada_MDFCentrada5pt(f::Function, x::Number, n::Int; h::Number=10^-4)
-    if n<0
-        printstyled("\n\nERRO NA FUNÇÃO Calculo_Derivada:\nValor de n inválido...\n\n", color=:bold)
-        return nothing
-    elseif n>1
-        return (Derivada_MDFCentrada5pt(f, x-2h, n-1, h=h) - 8*Derivada_MDFCentrada5pt(f, x-h, n-1, h=h) + 8*Derivada_MDFCentrada5pt(f, x+h, n-1, h=h) - Derivada_MDFCentrada5pt(f, x+2h, n-1, h=h)) / 12h
-    elseif n==1
-        return Derivada_MDFCentrada5pt(f, x, h=h)
+    function dif_f_interp(x_in)
+        res = 0
+        for k in range(1,stop=n-i)
+            res += coefs[k] * ((factorial(n-k))/(factorial(n-k-i))) * x_in^(n-k-i)
+        end
+        return res
     end
+
+    return dif_f_interp(x₀)
 end
 
 # Cálculo de zeros de funções ------------------------------------------------------------------------------
