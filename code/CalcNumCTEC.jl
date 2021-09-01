@@ -225,7 +225,7 @@ function SEL_CritConverg(A::Matrix, modo::Char)
 end
 
 function SEL_GaussJacobi(A::Matrix, b::Vector; x_in::Vector=zeros(length(b)), 
-    tol::Float64=10^-12, klim=10^3)
+    tol::Float64=10^-12, klim::Int=10^3)
     # Rseolve o sistema linear A*x=b através de iterações pelo Método da Gauss-Jacobi.
     # Tolerância padrão: 10^(-12)
     # Métrica de erro: eₐ = ||x_out - x_in|| / ||x_out||
@@ -282,7 +282,7 @@ function SEL_GaussJacobi(A::Matrix, b::Vector; x_in::Vector=zeros(length(b)),
                 end
             end
             
-            return x_out, err(x_in, x_out)
+            return x_out
         end
     else
         printstyled("ERRO NA FUNÇÃO GaussJacobi:\nInconsistência nas dimensões da matriz e do vetor...\n\n", color=:bold)
