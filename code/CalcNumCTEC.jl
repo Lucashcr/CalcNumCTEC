@@ -20,7 +20,7 @@ function Derivada_MDFCentrada(f::Function, x₀::Number, i::Int; h::Number=10^-4
 
     function dif_f_interp(x_in)
         res = 0
-        for k in range(1,stop=n-i)
+        for k in 1:n-i
             res += coefs[k] * ((factorial(n-k))/(factorial(n-k-i))) * x_in^(n-k-i)
         end
         return res
@@ -104,11 +104,11 @@ function Zeros_NR(f::Function, x::Number;
             k += 1
         end
 
-        if abs(Derivada_MDFCentrada5pt(f, x)) < tol
+        if abs(Derivada_MDFCentrada(f, x, 1)) < tol
             printstyled("\n\nERRO NA FUNÇÃO ZeroNR:\nO ponto x=$x possui derivada nula...\n\n", color=:bold)
             return nothing
         end
-        x = x - (f(x) / Derivada_MDFCentrada5pt(f, x))
+        x = x - (f(x) / Derivada_MDFCentrada(f, x, 1))
     end
 
     return x
@@ -456,9 +456,7 @@ function Interpolacao_Polinomial(f::Function, x::Vector)
 end
 
 function Interpolacao_Bilinear(x::Vector, y::Vector, z::Vector)
-    n = 4
-
-    if n == length(x) == length(y) == length(z)
+    if length(x) == length(y) == length(z) == 4
         M = [ones(n) x y x.*y]
         b = M \ z
         g(x,y) = dot(b,[1 x y x*y])
@@ -514,20 +512,21 @@ end
 
 # OBS: COMPLETAR O ERRO COM A DIFERENCIAÇÃO NUMÉRICA
 
-function Integral_Trapezio(f::Function, a::Number, b::Number; 
-    n::Number=(b-a)*10^3)
+function Integral_Trapezio(f::Function, x::Tuple; tol::Float64 = 1e-12)
+    if length(x) == 2
+        a = x[1]
+        b = x[2]
+        c = (a+b)/2
 
-    if a<b
-        h = (b-a)/n
+        T(a,b) = (b-a) * (f(a) + f(b)) / 2
 
-        soma_fi = 0
-        for i in 1:n-1
-            soma_fi += f(a + h*i)
+        if T(a,b) - T(a,c) - T(c,b) < tol
+            return T(a,b)
+        else
+            return Integral_Trapezio(f, (a,c), tol=tol) + Integral_Trapezio(f, (c,b),tol=tol)
         end
-
-        return (h/2)*(f(a) + 2*soma_fi + f(b))
     else
-        printstyled("\n\nERRO NA FUNÇÃO IntegSimpson:\nO limite superior da integral deve ser\nmaior do que o limite inferior...\n\n", color=:bold)
+        printstyled("\n\nERRO NA FUNÇÃO Intergral_Trapezio:\nO intervalo precisa ter apenas 2 valores...\n\n", color=:bold)
         return nothing
     end
 end
@@ -545,32 +544,61 @@ function Integral_Trapezio(x::Vector, y::Vector)
 
         return I#, err
     else
-        printstyled("\n\nERRO NA FUNÇÃO IntegSimpson:\nOs vetores possuem dimensões diferentes...\n\n", color=:bold)
+        printstyled("\n\nERRO NA FUNÇÃO Integral_Trapezio:\nOs vetores possuem dimensões diferentes...\n\n", color=:bold)
         return nothing
     end
 end
 
-function Integral_Simpson(f::Function, a::Number, b::Number; 
-    n::Number=(b-a)*10^3)
+function IntegralDupla_Trapezio(f::Function, x::Tuple, y::Tuple; tol::Float64=1e-12)
+    if length(x) == length(y) == 2
+        x₀, x₁ = x
+        y₀, y₁ = y
+        xₘ = (x₀ + x₁) / 2
+        yₘ = (y₀ + y₁) / 2
 
-    if a<b
-        h = (b-a)/(2*n)
-
-        soma_fi = 0
-        for i in 1:2*n-1
-            if i%2 == 0
-                soma_fi += 2 * f(a + h*i)
-            else
-                soma_fi += 4 * f(a + h*i)
-            end
+        function T(x,y)
+            return Integral_Trapezio([y...], [Integral_Trapezio([x...], f.([x...], [y[1],y[1]])),Integral_Trapezio([x...], f.([x...], [y[2],y[2]]))])
         end
 
-        I = (h/3)*(f(a) + soma_fi + f(b))
-        #err = abs(-(b-a)^4 * (IntegSimpson(dif_f4, a, b, n=10^3))[1] / (180*n^4))
-
-        return I#, err
+        if T(x,y) - T((x₀,xₘ),y) - T((xₘ,x₁),y) < tol
+            if T(x,y) - T(x,(y₀,yₘ)) - T(x,(yₘ,y₁)) < tol
+                println("teste1")
+                return T(x,y)
+            else
+                println("teste2")
+                return IntegralDupla_Trapezio(f, x, (y₀,yₘ), tol=tol) + IntegralDupla_Trapezio(f, x, (yₘ,y₁), tol=tol)
+            end
+        else
+            if T(x,y) - T(x,(y₀,yₘ)) - T(x,(yₘ,y₁)) < tol
+                println("teste3")
+                return IntegralDupla_Trapezio(f, (x₀,xₘ), y, tol=tol) + IntegralDupla_Trapezio(f, (xₘ,x₁), y, tol=tol)
+            else
+                println("teste4")
+                return IntegralDupla_Trapezio(f, (x₀,xₘ), (y₀,yₘ), tol=tol) + IntegralDupla_Trapezio(f, (xₘ,x₁), (y₀,yₘ), tol=tol) + IntegralDupla_Trapezio(f, (x₀,xₘ), y, tol=tol) + IntegralDupla_Trapezio(f, (xₘ,x₁), y, tol=tol)
+            end
+        end
     else
-        printstyled("\n\nERRO NA FUNÇÃO IntegSimpson:\nO limite superior da integral deve ser\nmaior do que o limite inferior...\n\n", color=:bold)
+        printstyled("\n\nERRO NA FUNÇÃO IntegralDupla_Trapezio:\nOs intervalos precisam ter apenas 2 valores...\n\n", color=:bold)
+        return nothing
+
+    end
+end
+
+function Integral_Simpson(f::Function, x::Tuple; tol::Float64 = 1e-12)
+    if length(x) == 2
+        a = x[1]
+        b = x[2]
+        c = (a+b)/2
+    
+        S(a,b) = (b-a) * (f(a) + 4*f((a+b)/2) + f(b)) / 6
+
+        if S(a,b) - S(a,c) - S(c,b) < tol
+            return S(a,b)
+        else
+            return Integral_Simpson(f, (a,c), tol=tol) + Integral_Simpson(f, (c,b), tol=tol)
+        end
+    else
+        printstyled("\n\nERRO NA FUNÇÃO Integral_Simpson:\nO intervalo precisa ter apenas 2 valores...\n\n", color=:bold)
         return nothing
     end
 end
@@ -585,11 +613,9 @@ function Integral_Simpson(x::Vector, y::Vector)
                 I += ((x[i+2]-x[i])/6)*(y[i] + 4*y[i+1] + y[i+2])
             end
 
-            #err = abs(-(b-a)^4 * (IntegSimpson(dif_f4, a, b, n=10^3))[1] / (180*n^4))
-
-            return I#, err
+            return I
         else
-            printstyled("\n\nERRO NA FUNÇÃO IntegSimpson:\nO número de elementos dos vetores deve ser ímpar...\n\n", color=:bold)
+            printstyled("\n\nERRO NA FUNÇÃO Integral_Simpson:\nO número de elementos dos vetores deve ser ímpar...\n\n", color=:bold)
             return nothing
         end
     else
@@ -598,26 +624,39 @@ function Integral_Simpson(x::Vector, y::Vector)
     end
 end
 
-function IntegralDupla_Simpson(f::Function, x1::Number, x2::Number, 
-    y1::Number, y2::Number; nx::Number=(b-a)*10^3, ny::Number=(d-c)*10^3)
+# function IntegralDupla_Simpson(f::Function, x1::Number, x2::Number, 
+#     y1::Number, y2::Number; nx::Number=(b-a)*10^3, ny::Number=(d-c)*10^3)
 
-    hx = (x2-x1)/2nx
-    hy = (y2-y1)/2ny
+#     hx = (x2-x1)/2nx
+#     hy = (y2-y1)/2ny
 
-    M = zeros(2nx+1, 2ny+1)
-    for (j,y) in enumerate(y1:hy:y2)
-        for (i,x) in enumerate(x1:hx:x2)
-            M[i,j] = f(x,y)
-        end
-    end
+#     M = zeros(2nx+1, 2ny+1)
+#     for (j,y) in enumerate(y1:hy:y2)
+#         for (i,x) in enumerate(x1:hx:x2)
+#             M[i,j] = f(x,y)
+#         end
+#     end
 
-    V = zeros(2ny+1)
-    for k in 1:2ny+1
-        V[k] += Integral_Simpson(Vector(x1:hx:x2), M[:,k]) 
-    end
+#     V = zeros(2ny+1)
+#     for k in 1:2ny+1
+#         V[k] += Integral_Simpson(Vector(x1:hx:x2), M[:,k]) 
+#     end
 
-    return Integral_Simpson(Vector(y1:hy:y2), V) 
-end
+#     return Integral_Simpson(Vector(y1:hy:y2), V) 
+# end
+
+# function IntegralDupla_Simpson(f::Function, x₀::Number, x₁::Number, y₀::Number, y₁::Number; tol::Float64=1e-12)
+#     S(a,b) = (b-a) * (f(a) + 4*f((a+b)/2) + f(b)) / 6
+
+#     xₘ = (x₀ + x₁) / 2
+#     yₘ = (y₀ + y₁) / 2
+
+#     if 
+
+#     else
+        
+#     end
+# end
 
 function IntegralTripla_Simpson(f::Function, x1::Number, x2::Number, y1::Number, y2::Number, 
     z1::Number, z2::Number; nx::Number=(x2-x1)*100, ny::Number=(y2-y1)*100, nz::Number=(z2-z1)*100)
@@ -722,7 +761,7 @@ struct Vertex3d
     z::Number
 
     function Vertex3d(v::Vertex2d,z::Number)
-        Vertex3d(v.x, v.y, z)
+        return Vertex3d(v.x, v.y, z)
     end
 
     function Base.print(v::Vertex3d)

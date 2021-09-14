@@ -1,13 +1,18 @@
 include("CalcNumCTEC.jl")
 
-# T(x,y) = sin(x) + cos(y) + x*y
+f(x,y) = 2x*y + 2x - x^2 - 2y^2 + 72
 
-# IntegDupSimpson(T, 0, 8, 0, 6)
-T(x,y,z) = sin(x) + cos(y) + z + sqrt(x*y*z)
+# f(x,y) = 1 + x + y
 
-t0 = time()
-n = 1000
-I = IntegralTripla_Simpson(T,0,1,0,1,0,1,nx=n,ny=n,nz=n)
-tf = time()
-Δt = round(tf-t0)
-println("Valor da integral: $I\nTempo de Execução: $Δt s")
+a = 0.
+b = 8.
+
+c = 0.
+d = 6.
+
+I_ap = IntegralDupla_Trapezio(f, (a,b), (c,d))
+I_ex = 2544.
+
+println("Integral aproximada: ", I_ap)
+println("Integral exata     : ", I_ex)
+println("Erro absoluto      : ", abs(I_ap - I_ex))
