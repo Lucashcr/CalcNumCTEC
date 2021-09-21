@@ -39,8 +39,7 @@ function Zeros_Bissecao(f::Function, a::Number, b::Number;
         
         while abs(f(x)) > tol
             if k == klim
-                printstyled("\n\nERRO: O método não convergiu para $klim iterações...\n\n", color=:bold)
-                return nothing
+                @assert false "ERRO: O método não convergiu para $klim iterações..."
             else
                 k += 1
             end
@@ -55,10 +54,7 @@ function Zeros_Bissecao(f::Function, a::Number, b::Number;
 
         return x
     else
-        printstyled("\n\nERRO NA FUNÇÃO ZeroBissecao:\nOs valores da função nos extremos do intervalo dado",
-        "\nprecisam ter valores de sinais opostos entre si",
-        "\npara que a convergência do método seja garantida...\n\n", 
-        color=:bold)
+        @assert false "\n\nERRO NA FUNÇÃO ZeroBissecao:\nOs valores da função nos extremos do intervalo dado\nprecisam ter valores de sinais opostos entre si\npara que a convergência do método seja garantida..."
     end
 end
 
@@ -70,8 +66,7 @@ function Zeros_Cordas(f::Function, a::Number, b::Number;
         
         while abs(f(x)) > tol
             if k == klim
-                printstyled("\n\nERRO: O método não convergiu para $klim iterações...\n\n", color=:bold)
-                return nothing
+                @assert false "ERRO: O método não convergiu para $klim iterações..."
             else
                 k += 1
             end
@@ -86,10 +81,9 @@ function Zeros_Cordas(f::Function, a::Number, b::Number;
 
         return x
     else
-        printstyled("\n\nERRO NA FUNÇÃO ZeroCordas:\nOs valores da função nos extremos do intervalo dado",
+        @assert false "ERRO NA FUNÇÃO ZeroCordas:\nOs valores da função nos extremos do intervalo dado",
         "\nprecisam ter valores de sinais opostos entre si",
-        "\npara que a convergência do método seja garantida...\n\n", 
-        color=:bold)
+        "\npara que a convergência do método seja garantida..."
     end
 end
 
@@ -98,17 +92,15 @@ function Zeros_NR(f::Function, x::Number;
     k = 0
     while abs(f(x)) > tol
         if k == klim
-            printstyled("\n\nERRO NA FUNÇÃO ZeroNR:\nO método não convergiu para $klim iterações...\n\n", color=:bold)
-            return nothing
+            @assert false "ERRO NA FUNÇÃO ZeroNR:\nO método não convergiu para $klim iterações..."
         else
             k += 1
         end
-
-        if abs(Derivada_MDFCentrada(f, x, 1)) < tol
-            printstyled("\n\nERRO NA FUNÇÃO ZeroNR:\nO ponto x=$x possui derivada nula...\n\n", color=:bold)
-            return nothing
+        
+        if abs(Derivada_MDFCentrada(f, x, 1, n=5)) < tol
+            @assert false "ERRO NA FUNÇÃO ZeroNR:\nO ponto x=$x possui derivada nula..."
         end
-        x = x - (f(x) / Derivada_MDFCentrada(f, x, 1))
+        x = x - (f(x) / Derivada_MDFCentrada(f, x, 1, n=5))
     end
 
     return x
@@ -121,8 +113,7 @@ function SEL_EliminGauss(A::Matrix, b::Vector; tol::Float64=10^-12)
     
     if m==n && m == length(b)
         if abs(det(A)) < tol
-            printstyled("\n\nERRO na função EliminGauss:\nA matriz é singular...\n\n", color=:bold)
-            return nothing
+            @assert false "ERRO na função EliminGauss:\nA matriz é singular..."
         else
             function test(M)
                 aux = 0
@@ -152,8 +143,7 @@ function SEL_EliminGauss(A::Matrix, b::Vector; tol::Float64=10^-12)
                     bG[j] = bG[i]
                     bG[i] = aux_b
                     if (i,j) == (m,n)
-                        printstyled("\n\nERRO na função EliminGauss:\nA matriz é singular...\n\n", color=:bold)
-                        return nothing
+                        @assert false "ERRO na função EliminGauss:\nA matriz é singular..."
                     end
                 end
             end
@@ -181,8 +171,7 @@ function SEL_EliminGauss(A::Matrix, b::Vector; tol::Float64=10^-12)
             return x
         end
     else
-        printstyled("ERRO NA FUNÇÃO ElimGauss:\nInconsistência nas dimensões da matriz e do vetor...\n\n", color=:bold)
-        return nothing
+        @assert false "ERRO NA FUNÇÃO ElimGauss:\nInconsistência nas dimensões da matriz e do vetor..."
     end
 end
 
@@ -220,12 +209,12 @@ function SEL_CritConverg(A::Matrix, modo::Char)
             return max(beta...)
         end
     else
-        printstyled("\n\nERRO NA FUNÇÃO CritConverg:\nA matriz dada não é quadrada...\n\n", color=:bold)
+        @assert false "\n\nERRO NA FUNÇÃO CritConverg:\nA matriz dada não é quadrada..."
     end
 end
 
 function SEL_GaussJacobi(A::Matrix, b::Vector; x_in::Vector=zeros(length(b)), 
-    tol::Float64=10^-12, klim::Int=10^3)
+    tol::Float64=1e-12, klim::Int=10^6)
     # Rseolve o sistema linear A*x=b através de iterações pelo Método da Gauss-Jacobi.
     # Tolerância padrão: 10^(-12)
     # Métrica de erro: eₐ = ||x_out - x_in|| / ||x_out||
@@ -235,8 +224,7 @@ function SEL_GaussJacobi(A::Matrix, b::Vector; x_in::Vector=zeros(length(b)),
 
     if m==n && m == length(b)
         if abs(det(A)) < tol
-            printstyled("\n\nERRO na função GaussJacobi:\nA matriz é singular...\n\n", color=:bold)
-            return nothing
+            @assert false "ERRO na função GaussJacobi:\nA matriz é singular..."
         else
             for j in 1:n
                 i = j
@@ -251,8 +239,7 @@ function SEL_GaussJacobi(A::Matrix, b::Vector; x_in::Vector=zeros(length(b)),
                     b[j] = b[i]
                     b[i] = aux_b
                     if (i,j) == (m,n)
-                        printstyled("\n\nERRO na função EliminGauss:\nA matriz é singular...\n\n", color=:bold)
-                        return nothing
+                        @assert false "ERRO na função EliminGauss:\nA matriz é singular..."
                     end
                 end
             end
@@ -269,8 +256,7 @@ function SEL_GaussJacobi(A::Matrix, b::Vector; x_in::Vector=zeros(length(b)),
             
             while err(x_in, x_out) > tol
                 if k == klim
-                    printstyled("ERRO NA FUNÇÃO GaussJacobi:\nO método não convergiu para $klim iterações\ne tolerância de $tol...\n\n", color=:bold)
-                    return nothing
+                    @assert false "ERRO NA FUNÇÃO GaussJacobi:\nO método não convergiu para $klim iterações\ne tolerância de $tol..."
                 else
                     k += 1
                 end
@@ -285,12 +271,12 @@ function SEL_GaussJacobi(A::Matrix, b::Vector; x_in::Vector=zeros(length(b)),
             return x_out
         end
     else
-        printstyled("ERRO NA FUNÇÃO GaussJacobi:\nInconsistência nas dimensões da matriz e do vetor...\n\n", color=:bold)
+        @assert false "ERRO NA FUNÇÃO GaussJacobi:\nInconsistência nas dimensões da matriz e do vetor..."
     end
 end
 
 function SEL_GaussSeidel(A::Matrix, b::Vector; x_in::Vector=zeros(length(b)), 
-    tol::Float64=10^-12, klim::Int64=10^3)
+    tol::Float64=1e-12, klim::Int=10^6)
     # Rseolve o sistema linear A*x=b através de iterações pelo Método da Gauss-Seidel.
     # Tolerância padrão: 10^(-12)
     # Métrica de erro: eₐ = ||x_out - x_in|| / ||x_out||
@@ -300,8 +286,7 @@ function SEL_GaussSeidel(A::Matrix, b::Vector; x_in::Vector=zeros(length(b)),
 
     if m==n && m == length(b)
         if abs(det(A)) < tol
-            printstyled("\n\nERRO na função GaussJacobi:\nA matriz é singular...\n\n", color=:bold)
-            return nothing
+            @assert false "\n\nERRO na função GaussJacobi:\nA matriz é singular...\n\n"
         else
             for j in 1:n
                 i = j
@@ -316,8 +301,7 @@ function SEL_GaussSeidel(A::Matrix, b::Vector; x_in::Vector=zeros(length(b)),
                     b[j] = b[i]
                     b[i] = aux_b
                     if (i,j) == (m,n)
-                        printstyled("\n\nERRO na função EliminGauss:\nA matriz é singular...\n\n", color=:bold)
-                        return nothing
+                        @assert false "ERRO na função GaussSeidel:\nA matriz é singular..."
                     end
                 end
             end
@@ -334,8 +318,7 @@ function SEL_GaussSeidel(A::Matrix, b::Vector; x_in::Vector=zeros(length(b)),
             
             while err(x_in, x_out) > tol
                 if k == klim
-                    printstyled("ERRO NA FUNÇÃO GaussSeidel:\nO método não convergiu para $klim iterações\ne tolerância de $tol...\n\n", color=:bold)
-                    return nothing
+                    @assert false "ERRO NA FUNÇÃO GaussSeidel:\nO método não convergiu para $klim iterações\ne tolerância de $tol..."
                 else
                     k += 1
                 end
@@ -347,7 +330,7 @@ function SEL_GaussSeidel(A::Matrix, b::Vector; x_in::Vector=zeros(length(b)),
                 end
             end
             
-            return x_out, err(x_in, x_out)
+            return x_out
         end
     else
         printstyled("ERRO NA FUNÇÃO GaussJacobi:\nInconsistência nas dimensões da matriz e do vetor...\n\n", color=:bold)
@@ -357,7 +340,7 @@ end
 # Resolução de sistemas de equações não lineares ---------------------------------------------------------
 
 function SENL_NRSecante(F::Function, x_in::Vector;
-    tol::Float64=10^-6, klim::Int64=10^3)
+    tol::Float64=1e-6, klim::Int64=10^3)
     # Rseolve o sistema não linear F(x)=0 através de iterações pelo Método de Newton-Raphson Secante.
     # Ou seja, a Jacobiana é calculada de maneira aproximada em função da tolerância.
     # Tolerância padrão: 10^(-12)
@@ -385,8 +368,7 @@ function SENL_NRSecante(F::Function, x_in::Vector;
         
         while err(x_in, x_out) > tol
             if k==klim
-                printstyled("\n\nERRO na função NR_Secante:\nO método não convergiu para $klim iterações\ne tolerância de $tol...\n\n", color=:bold)
-                return nothing
+                @assert false "\n\nERRO na função NR_Secante:\nO método não convergiu para $klim iterações\ne tolerância de $tol...\n\n"
             else
                 k+=1
             end
@@ -427,8 +409,7 @@ function Interpolacao_Polinomial(x::Vector, y::Vector)
 
         return f_interpoladora
     else
-        printstyled("\n\nERRO NA FUNÇÃO Interpolacao_Polinomial:\nOs vetores de entrada possuem dimensões diferentes...\n\n", color=:bold)
-        return nothing
+        @assert false "ERRO NA FUNÇÃO Interpolacao_Polinomial:\nOs vetores de entrada possuem dimensões diferentes..."
     end
 end
 
@@ -462,8 +443,7 @@ function Interpolacao_Bilinear(x::Vector, y::Vector, z::Vector)
         g(x,y) = dot(b,[1 x y x*y])
         return g
     else
-        printstyled("\n\nERRO NA FUNÇÃO Interpolacao_Bilinear:\nOs vetores de entrada precisam ter dimensões de 4 elementos...\n\n", color=:bold)
-        return nothing
+        @assert false "\n\nERRO NA FUNÇÃO Interpolacao_Bilinear:\nOs vetores de entrada precisam ter dimensões de 4 elementos..."
     end
 end
 
@@ -472,11 +452,8 @@ function Ajuste_MinimosQuadrados(x::Vector, y::Vector; grau::Int64=1)
     # O grau padrão do polinômio é 1.
     # Retorno da função: (polinomio, r²)
     if length(x) != length(y)
-        printstyled("\n\nERRO NA FUNÇÃO MinimosQuadrados:\nOs vetores de entrada possuem dimensões diferentes...\n\n", color=:bold)
-        return nothing
+        @assert false "ERRO NA FUNÇÃO MinimosQuadrados:\nOs vetores de entrada possuem dimensões diferentes..."
     else
-        n = length(x)
-
         A = zeros(grau+1, grau+1)
         for i in 0:grau
             for j in 0:grau
@@ -526,8 +503,7 @@ function Integral_Trapezio(f::Function, x::Tuple; tol::Float64 = 1e-12)
             return Integral_Trapezio(f, (a,c), tol=tol) + Integral_Trapezio(f, (c,b),tol=tol)
         end
     else
-        printstyled("\n\nERRO NA FUNÇÃO Intergral_Trapezio:\nO intervalo precisa ter apenas 2 valores...\n\n", color=:bold)
-        return nothing
+        @assert false "ERRO NA FUNÇÃO Intergral_Trapezio:\nO intervalo precisa ter apenas 2 valores..."
     end
 end
 
@@ -544,8 +520,7 @@ function Integral_Trapezio(x::Vector, y::Vector)
 
         return I#, err
     else
-        printstyled("\n\nERRO NA FUNÇÃO Integral_Trapezio:\nOs vetores possuem dimensões diferentes...\n\n", color=:bold)
-        return nothing
+        @assert false "ERRO NA FUNÇÃO Integral_Trapezio:\nOs vetores possuem dimensões diferentes..."
     end
 end
 
@@ -568,19 +543,15 @@ function IntegralDupla_Trapezio(f::Function, x::Tuple, y::Tuple; tol::Float64=1e
                 println("teste2")
                 return IntegralDupla_Trapezio(f, x, (y₀,yₘ), tol=tol) + IntegralDupla_Trapezio(f, x, (yₘ,y₁), tol=tol)
             end
+        elseif T(x,y) - T(x,(y₀,yₘ)) - T(x,(yₘ,y₁)) < tol
+            println("teste3")
+            return IntegralDupla_Trapezio(f, (x₀,xₘ), y, tol=tol) + IntegralDupla_Trapezio(f, (xₘ,x₁), y, tol=tol)
         else
-            if T(x,y) - T(x,(y₀,yₘ)) - T(x,(yₘ,y₁)) < tol
-                println("teste3")
-                return IntegralDupla_Trapezio(f, (x₀,xₘ), y, tol=tol) + IntegralDupla_Trapezio(f, (xₘ,x₁), y, tol=tol)
-            else
-                println("teste4")
-                return IntegralDupla_Trapezio(f, (x₀,xₘ), (y₀,yₘ), tol=tol) + IntegralDupla_Trapezio(f, (xₘ,x₁), (y₀,yₘ), tol=tol) + IntegralDupla_Trapezio(f, (x₀,xₘ), y, tol=tol) + IntegralDupla_Trapezio(f, (xₘ,x₁), y, tol=tol)
-            end
+            println("teste4")
+            return IntegralDupla_Trapezio(f, (x₀,xₘ), (y₀,yₘ), tol=tol) + IntegralDupla_Trapezio(f, (xₘ,x₁), (y₀,yₘ), tol=tol) + IntegralDupla_Trapezio(f, (x₀,xₘ), y, tol=tol) + IntegralDupla_Trapezio(f, (xₘ,x₁), y, tol=tol)
         end
     else
-        printstyled("\n\nERRO NA FUNÇÃO IntegralDupla_Trapezio:\nOs intervalos precisam ter apenas 2 valores...\n\n", color=:bold)
-        return nothing
-
+        @assert false "ERRO NA FUNÇÃO IntegralDupla_Trapezio:\nOs intervalos precisam ter apenas 2 valores..."
     end
 end
 
@@ -598,8 +569,7 @@ function Integral_Simpson(f::Function, x::Tuple; tol::Float64 = 1e-12)
             return Integral_Simpson(f, (a,c), tol=tol) + Integral_Simpson(f, (c,b), tol=tol)
         end
     else
-        printstyled("\n\nERRO NA FUNÇÃO Integral_Simpson:\nO intervalo precisa ter apenas 2 valores...\n\n", color=:bold)
-        return nothing
+        @assert false "ERRO NA FUNÇÃO Integral_Simpson:\nO intervalo precisa ter apenas 2 valores..."
     end
 end
 
@@ -615,12 +585,10 @@ function Integral_Simpson(x::Vector, y::Vector)
 
             return I
         else
-            printstyled("\n\nERRO NA FUNÇÃO Integral_Simpson:\nO número de elementos dos vetores deve ser ímpar...\n\n", color=:bold)
-            return nothing
+            @assert false "ERRO NA FUNÇÃO Integral_Simpson:\nO número de elementos dos vetores deve ser ímpar..."
         end
     else
-        printstyled("\n\nERRO NA FUNÇÃO IntegSimpson:\nOs vetores possuem dimensões diferentes...\n\n", color=:bold)
-        return nothing
+        @assert false "ERRO NA FUNÇÃO IntegSimpson:\nOs vetores possuem dimensões diferentes..."
     end
 end
 
@@ -747,6 +715,10 @@ struct Vertex2d
     x::Number
     y::Number
 
+    function Vertex2d(x::Number, y::Number)
+        
+    end
+
     function Base.print(v::Vertex2d)
         print("(", v.x, ", ", v.y, ")")
     end
@@ -754,6 +726,8 @@ struct Vertex2d
         println("(", v.x, ", ", v.y, ")")
     end
 end
+
+
 
 struct Vertex3d
     x::Number
@@ -773,3 +747,4 @@ struct Vertex3d
 end
 
 "CalcNumCTEC incluída com sucesso!"
+
